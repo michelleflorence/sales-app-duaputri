@@ -1,17 +1,10 @@
 import { DataTypes } from "sequelize";
 import db from "../config/Database.js";
 
-const Officers = db.define('officers', {
+const Customers = db.define('customers',{
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
-    },
-    roles: {
-        type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true
@@ -25,23 +18,23 @@ const Officers = db.define('officers', {
             len: [3, 100]
         }
     },
-    email:{
-        type: DataTypes.STRING,
+    email: {
+        type: DataTypes.STRING(255),
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true,
-            isEmail: true
-        }
+        },
     },
-    password:{
+    phone: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
-            notEmpty: true
+        validate: {
+            notEmpty: true,
+            len: [3, 100]
         }
     }
-}, {
+},{
     freezeTableName: true
 });
 
-export default Officers;
+export default Customers;

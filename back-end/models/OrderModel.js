@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
 import db from "../config/Database.js";
-import Officers from "./OfficerModel.js";
+import Customers from "./CustomerModel.js";
+// import Officers from "./OfficerModel.js";
 
-const Products = db.define('products',{
+const Orders = db.define('orders',{
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -11,34 +12,33 @@ const Products = db.define('products',{
             notEmpty: true
         }
     },
-    officerId:{
+    customerId:{
         type: DataTypes.INTEGER,
         allowNull: false,
         validate:{
             notEmpty: true
         }
     },
-    productName:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true,
-            len: [3, 100]
-        }
-    },
-    price:{
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
-    },
-    images: {
+    // officerId:{
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     validate:{
+    //         notEmpty: true
+    //     }
+    // },
+    orderNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
             notEmpty: true,
-            len: [3, 255]
+            len: [3, 100]
+        }
+    },
+    totalPrice:{
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        validate:{
+            notEmpty: true
         }
     },
     status: {
@@ -52,7 +52,10 @@ const Products = db.define('products',{
     freezeTableName: true
 });
 
-Officers.hasMany(Products);
-Products.belongsTo(Officers, {foreignKey: 'officerId'});
+Customers.hasMany(Orders);
+Orders.belongsTo(Customers, {foreignKey: 'customerId'});
 
-export default Products;
+// Officers.hasMany(Orders);
+// Orders.belongsTo(Officers, {foreignKey: 'officerId'});
+
+export default Orders;
