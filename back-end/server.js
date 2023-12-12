@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import bodyParser from 'body-parser';
 // import db from "./config/Database.js";
 import OfficerRoute from './routes/OfficerRoute.js';
 import ProductRoute from './routes/ProductRoute.js';
@@ -38,6 +39,11 @@ app.use(cors({
 
 // Setup middleware untuk menerima data dalam format JSON
 app.use(express.json())
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 // Setup middleware untuk routing Officer, Product, dan Authentication
 app.use(OfficerRoute)

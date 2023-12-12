@@ -1,52 +1,58 @@
-import argon2 from 'argon2';
 import Customers from "../models/CustomerModel.js";
 
+// Mendapatkan daftar semua pelanggan
 export const getCustomers = async (req, res) => {
     try {
+        // Mengambil data pelanggan dari database
         const response = await Customers.findAll({
             attributes: ['uuid', 'name', 'email', 'phone']
         });
-        res.status(200).json(response)
+        res.status(200).json(response) // Mengembalikan data pelanggan dalam format JSON
     } catch (error) {
-        res.status(500).json({msg: error.message})
+        res.status(500).json({msg: error.message}) // Menangani kesalahan server dan memberikan pesan error
     }
 }
 
+// Mendapatkan informasi pelanggan berdasarkan UUID
 export const getCustomerById = async (req, res) => {
     try {
+        // Mengambil data pelanggan dari database
         const response = await Customers.findOne({
             attributes: ['uuid', 'name', 'email', 'phone'],
-            where: {
-                uuid: req.params.id
+            where: { 
+                uuid: req.params.id // Mencocokkan UUID pelanggan dengan nilai parameter ID dari URL
             }
         });
-        res.status(200).json(response)
+        res.status(200).json(response) // Mengembalikan data pelanggan dalam format JSON
     } catch (error) {
-        res.status(500).json({msg: error.message})
+        res.status(500).json({msg: error.message}) // Menangani kesalahan server dan memberikan pesan error
     }
 }
 
+// Membuat pelanggan baru
 export const createCustomer = async (req, res) => {
-    const {name, email, phone} = req.body;
-
+    const {name, email, phone} = req.body; // Desktruksi body dari request
+    
+    // Menambahkan pelanggan baru ke database
     try {
         await Customers.create({
             name: name,
             email: email,
             phone: phone
         });
-        res.status(201).json({msg: "Customer has been registered successfuly!"})
+        res.status(201).json({msg: "Customer has been registered successfuly!"}) // Memberikan respons sukses
     } catch (error) {
-        res.status(500).json({msg: error.message});
+        res.status(500).json({msg: error.message}); // Menangani kesalahan server dan memberikan pesan kesalahan
     }
 }
 
+// Fungsi untuk memperbarui informasi pelanggan berdasarkan UUID
 export const updateCustomer = async (req, res) => {
     try {
-        // Check id yang dikirimkan oleh Customer
+
+        // Mencari pelanggan berdasarkan UUID dari parameter URL
         const customer = await Customers.findOne({
             where: {
-                // Ambil uuid dari parameter
                 uuid: req.params.id
             }
         })
@@ -62,6 +68,8 @@ export const updateCustomer = async (req, res) => {
             }
         })
 
+        console.log(req.body)
+
         // Jika berhasil update, maka berikan respons message berhasil update
         res.status(200).json({msg: "Updated customers successfuly!"});
     } catch (error) {
@@ -71,7 +79,7 @@ export const updateCustomer = async (req, res) => {
 }
 
 export const deleteCustomer = async (req, res) => {
-    // Mencari customer berdasarkan ID
+    // Mencari pelanggan berdasarkan UUID dari parameter URL
     const customer = await Customers.findOne({
         where: {
             uuid: req.params.id
@@ -90,6 +98,7 @@ export const deleteCustomer = async (req, res) => {
         });
         res.status(200).json({msg: "Customer Deleted!"});
     } catch (error) {
+        // Kembalikan error message
         res.status(400).json({msg: error.message})
     }
 }
