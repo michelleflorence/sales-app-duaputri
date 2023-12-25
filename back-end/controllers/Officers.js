@@ -1,120 +1,135 @@
-import Officer from '../models/OfficerModel.js';
-import argon2 from 'argon2';
+import Officer from "../models/OfficerModel.js";
+import argon2 from "argon2";
 
 // Mendapatkan daftar semua petugas
-export const getOfficers = async (req, res) => {
-    try {
-        const response = await Officer.findAll({
-            attributes: ['uuid', 'name', 'email', 'roles']
-        });
-        res.status(200).json(response)
-    } catch (error) {
-        res.status(500).json({msg: error.message})
-    }
-}
+const getOfficers = async (req, res) => {
+  try {
+    const response = await Officer.findAll({
+      attributes: ["uuid", "name", "email", "roles"],
+      order: [["createdAt", "ASC"]],
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
 
 // Mendapatkan informasi petugas berdasarkan ID
-export const getOfficerById = async (req, res) => {
-    try {
-        const response = await Officer.findOne({
-            attributes: ['uuid', 'name', 'email', 'roles'],
-            where: {
-                uuid: req.params.id
-            }
-        });
-        res.status(200).json(response)
-    } catch (error) {
-        res.status(500).json({msg: error.message})
-    }
-}
+const getOfficerById = async (req, res) => {
+  try {
+    const response = await Officer.findOne({
+      attributes: ["uuid", "name", "email", "roles"],
+      where: {
+        uuid: req.params.id,
+      },
+      order: [["createdAt", "ASC"]],
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
 
 // Membuat petugas baru
-export const createOfficer = async (req, res) => {
-    const {name, email, password, confPassword, roles} = req.body;
+const createOfficer = async (req, res) => {
+  const { name, email, password, confPassword, roles } = req.body;
 
-    // Memeriksa kesesuaian kata sandi
-    if (password !== confPassword) return res.status(400).json({msg: "Password not match!"})
+  // Memeriksa kesesuaian kata sandi
+  if (password !== confPassword)
+    return res.status(400).json({ msg: "Password not match!" });
 
-    // Menghash kata sandi sebelum menyimpan ke basis data
-    const hashPassword = await argon2.hash(password);
+  // Menghash kata sandi sebelum menyimpan ke basis data
+  const hashPassword = await argon2.hash(password);
 
-    try {
-        // Menyimpan petugas baru ke basis data
-        await Officer.create({
-            name: name,
-            email: email, 
-            password: hashPassword,
-            roles: roles
-        });
-        res.status(201).json({msg: "You've been registered!"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
+  try {
+    // Menyimpan petugas baru ke basis data
+    await Officer.create({
+      name: name,
+      email: email,
+      password: hashPassword,
+      roles: roles,
+    });
+    res.status(201).json({ msg: "You've been registered!" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
 
 // Memperbarui informasi petugas
-export const updateOfficer = async (req, res) => {
-    // Mencari petugas berdasarkan ID
-    const officer = await Officer.findOne({
+const updateOfficer = async (req, res) => {
+  // Mencari petugas berdasarkan ID
+  const officer = await Officer.findOne({
+    where: {
+      uuid: req.params.id,
+    },
+  });
+
+  // Menangani jika petugas tidak ditemukan
+  if (!officer) return res.status(404).json({ msg: "Officer not found!" });
+
+  const { name, email, password, confPassword, roles } = req.body;
+  let hashPassword;
+
+  // Mengecek apakah ada perubahan kata sandi
+  if (password === "" || password === null) {
+    hashPassword = officer.password;
+  } else {
+    hashPassword = await argon2.hash(password);
+  }
+
+  // Memeriksa kesesuaian kata sandi
+  if (password !== confPassword)
+    return res.status(400).json({ msg: "Password not match!" });
+  try {
+    // Memperbarui informasi petugas di basis data
+    await Officer.update(
+      {
+        name: name,
+        email: email,
+        password: hashPassword,
+        roles: roles,
+      },
+      {
         where: {
-            uuid: req.params.id
-        }
-    });
-
-    // Menangani jika petugas tidak ditemukan
-    if (!officer) return res.status(404).json({msg: "Officer not found!"})
-    
-    const {name, email, password, confPassword, roles} = req.body;
-    let hashPassword;
-
-    // Mengecek apakah ada perubahan kata sandi
-    if(password === "" || password === null) {
-        hashPassword = officer.password
-    } else {
-        hashPassword = await argon2.hash(password);
-    }
-
-    // Memeriksa kesesuaian kata sandi
-    if (password !== confPassword) return res.status(400).json({msg: "Password not match!"})
-    try {
-        // Memperbarui informasi petugas di basis data
-        await Officer.update({
-            name: name,
-            email: email, 
-            password: hashPassword,
-            roles: roles
-        }, {
-            where: {
-                id: officer.id
-            }
-        });
-        res.status(200).json({msg: "Officer Updated!"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
+          id: officer.id,
+        },
+      }
+    );
+    res.status(200).json({ msg: "Officer Updated!" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
 
 // Menghapus petugas berdasarkan ID
-export const deleteOfficer = async (req, res) => {
-    // Mencari petugas berdasarkan ID
-    const officer = await Officer.findOne({
-        where: {
-            uuid: req.params.id
-        }
-    });
+const deleteOfficer = async (req, res) => {
+  // Mencari petugas berdasarkan ID
+  const officer = await Officer.findOne({
+    where: {
+      uuid: req.params.id,
+    },
+  });
 
-    // Menangani jika petugas tidak ditemukan
-    if (!officer) return res.status(404).json({msg: "Officer not found!"})
-    
-    try {
-        // Menghapus petugas dari basis data
-        await Officer.destroy({
-            where: {
-                id: officer.id
-            }
-        });
-        res.status(200).json({msg: "Officer Deleted!"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
+  // Menangani jika petugas tidak ditemukan
+  if (!officer) return res.status(404).json({ msg: "Officer not found!" });
+
+  try {
+    // Menghapus petugas dari basis data
+    await Officer.destroy({
+      where: {
+        id: officer.id,
+      },
+    });
+    res.status(200).json({ msg: "Officer Deleted!" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export {
+  getOfficers,
+  getOfficerById,
+  createOfficer,
+  updateOfficer,
+  deleteOfficer,
+};

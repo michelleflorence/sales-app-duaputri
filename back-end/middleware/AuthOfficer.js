@@ -1,34 +1,40 @@
 // Middleware untuk memproteksi endpoint
 
 import Officer from "../models/OfficerModel.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Middleware untuk memverifikasi token officer
 export const verifyOfficer = async (req, res, next) => {
+  try {
     // Ekstrak token dari header Authorization
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
     // Jika tidak ada token, kembalikan status dan pesan error
     if (!token) {
-        return res.status(401).json({ msg: 'Please log in first!' });
+      return res.status(401).json({ msg: "Please log in first!" });
     }
 
     // Verifikasi dan decode token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) return res.status(403).json({ msg: 'Invalid token!' });
 
     // Cari officer berdasarkan uuid yang terdapat dalam token
     const officer = await Officer.findOne({
-        where: {
-            uuid: decoded.uuid
-        }
+      where: {
+        uuid: decoded.uuid,
+      },
     });
 
     // Jika officer tidak ditemukan, kembalikan status dan pesan error
-    if (!officer) return res.status(404).json({msg: "Officer not found!"});
+    if (!officer) {
+      return res.status(404).json({ msg: "Officer not found!" });
+    }
+
+    // Pastikan officer memiliki properti roles
+    if (!officer.roles) {
+      return res.status(403).json({ msg: "Officer roles not defined!" });
+    }
 
     // Menyimpan data officer pada objek req untuk digunakan pada middleware selanjutnya
     req.officer = officer;
@@ -38,69 +44,109 @@ export const verifyOfficer = async (req, res, next) => {
 
     // Menyimpan data officer roles pada objek req untuk digunakan pada middleware selanjutnya
     req.roles = officer.roles;
+
     next();
-}
+  } catch (error) {
+    console.error("Error in verifyOfficer middleware:", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
 
 // Middleware untuk membatasi akses hanya untuk super admin
 export const superAdminOnly = async (req, res, next) => {
-    // Ekstrak token dari header Authorization
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  // Ekstrak token dari header Authorization
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-    // Jika tidak ada token, kembalikan status dan pesan error
-    if (!token) {
-        return res.status(401).json({ msg: 'Please log in first!' });
-    }
+  // Jika tidak ada token, kembalikan status dan pesan error
+  if (!token) {
+    return res.status(401).json({ msg: "Please log in first!" });
+  }
 
-    // Verifikasi dan decode token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) return res.status(403).json({ msg: 'Invalid token' });
+  // Verifikasi dan decode token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) return res.status(403).json({ msg: "Invalid token" });
 
-    // Cari officer berdasarkan uuid yang terdapat dalam token
-    const officer = await Officer.findOne({
-        where: {
-            uuid: decoded.uuid
-        }
-    });
-    
-    // Jika officer tidak ditemukan, kembalikan status dan pesan error
-    if (!officer) return res.status(404).json({msg: "Officer not found!"});
+  // Cari officer berdasarkan uuid yang terdapat dalam token
+  const officer = await Officer.findOne({
+    where: {
+      uuid: decoded.uuid,
+    },
+  });
 
-    // Jika yang login bukan super admin, maka akses akan ditolak
-    if (officer.roles !== "superadmin") return res.status(403).json({msg: "Access has been denied!"});
+  // Jika officer tidak ditemukan, kembalikan status dan pesan error
+  if (!officer) return res.status(404).json({ msg: "Officer not found!" });
 
-    // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya
-    next();
-}
+  // Jika yang login bukan super admin, maka akses akan ditolak
+  if (officer.roles !== "superadmin")
+    return res.status(403).json({ msg: "Access has been denied!" });
+
+  // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya
+  next();
+};
 
 // Middleware untuk membatasi akses hanya untuk koki
 export const chefOnly = async (req, res, next) => {
-    // Ekstrak token dari header Authorization
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  // Ekstrak token dari header Authorization
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-    // Jika tidak ada token, kembalikan status dan pesan error
-    if (!token) {
-        return res.status(401).json({ msg: 'Please log in first!' });
-    }
+  // Jika tidak ada token, kembalikan status dan pesan error
+  if (!token) {
+    return res.status(401).json({ msg: "Please log in first!" });
+  }
 
-    // Verifikasi dan decode token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) return res.status(403).json({ msg: 'Invalid token' });
+  // Verifikasi dan decode token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) return res.status(403).json({ msg: "Invalid token" });
 
-    // Cari officer berdasarkan uuid yang terdapat dalam token
-    const officer = await Officer.findOne({
-        where: {
-            uuid: decoded.uuid
-        }
-    });
+  // Cari officer berdasarkan uuid yang terdapat dalam token
+  const officer = await Officer.findOne({
+    where: {
+      uuid: decoded.uuid,
+    },
+  });
 
-    // Jika officer tidak ditemukan, kembalikan status dan pesan error
-    if (!officer) return res.status(404).json({msg: "Officer not found!"});
+  // Jika officer tidak ditemukan, kembalikan status dan pesan error
+  if (!officer) return res.status(404).json({ msg: "Officer not found!" });
 
-    // Jika yang login bukan koki, maka akses akan ditolak
-    if (officer.roles !== "koki") return res.status(403).json({msg: "Access has been denied!"})
+  // Jika yang login bukan koki, maka akses akan ditolak
+  if (officer.roles !== "koki")
+    return res.status(403).json({ msg: "Access has been denied!" });
 
-    // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya
-    next();
-}
+  // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya
+  next();
+};
+
+// Middleware untuk membatasi akses hanya untuk kasir
+export const cashierOnly = async (req, res, next) => {
+  // Ekstrak token dari header Authorization
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  // Jika tidak ada token, kembalikan status dan pesan error
+  if (!token) {
+    return res.status(401).json({ msg: "Please log in first!" });
+  }
+
+  // Verifikasi dan decode token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) return res.status(403).json({ msg: "Invalid token" });
+
+  // Cari officer berdasarkan uuid yang terdapat dalam token
+  const officer = await Officer.findOne({
+    where: {
+      uuid: decoded.uuid,
+    },
+  });
+
+  // Jika officer tidak ditemukan, kembalikan status dan pesan error
+  if (!officer) return res.status(404).json({ msg: "Officer not found!" });
+
+  // Jika yang login bukan kasir, maka akses akan ditolak
+  if (officer.roles !== "kasir")
+    return res.status(403).json({ msg: "Access has been denied!" });
+
+  // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya
+  next();
+};

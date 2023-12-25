@@ -14,10 +14,10 @@ const router = express.Router();
 // Parsing middleware ke masing-masing end point
 
 // Endpoint untuk mendapatkan daftar semua officer (GET)
-router.get('/officers', verifyOfficer, superAdminOnly, getOfficers);
+router.get('/officers', verifyOfficer, getOfficers);
 
 // Endpoint untuk mendapatkan data officer berdasarkan ID (GET)
-router.get('/officers/:id', verifyOfficer, superAdminOnly, getOfficerById);
+router.get('/officers/:id', verifyOfficer, getOfficerById);
 
 // Endpoint untuk membuat officer baru (POST)
 router.post('/officers', verifyOfficer, superAdminOnly, createOfficer);

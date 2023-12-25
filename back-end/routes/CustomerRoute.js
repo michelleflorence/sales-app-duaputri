@@ -14,7 +14,7 @@ const router = express.Router();
 // Parsing middleware ke masing-masing end point
 
 // Endpoint untuk mendapatkan daftar semua customer (GET)
-router.get('/customers', verifyOfficer, getCustomers);
+router.get("/customers", verifyOfficer, getCustomers);
 
 // Endpoint untuk mendapatkan data customer berdasarkan ID (GET)
 router.get('/customers/:id', verifyOfficer, getCustomerById)
