@@ -1,35 +1,210 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  Ecommerce,
+  Orders,
+  Officers,
+  Customers,
+  Products,
+  Login,
+  AddProduct,
+  AddOrder,
+  AddCustomer,
+  AddOfficer,
+  EditCustomer,
+  ViewCustomer,
+  ViewOfficer,
+  EditOfficer,
+  EditProduct,
+} from "./pages";
+import Master from "./layout/Master";
+import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PageNotFound from "./pages/PageNotFound";
+import { PrivateRoute } from "./components";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <ToastContainer />
+      <Routes>
+        {/* Dashboard */}
+        <Route path="/" element={<PrivateRoute redirectPath="/" />}>
+          <Route
+            index
+            element={
+              <Master>
+                <Ecommerce />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/dashboard"
+          element={<PrivateRoute redirectPath="/dashboard" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <Ecommerce />
+              </Master>
+            }
+          />
+        </Route>
 
-export default App
+        {/* Pages */}
+        <Route path="/orders" element={<PrivateRoute redirectPath="/orders" />}>
+          <Route
+            index
+            element={
+              <Master>
+                <Orders />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/addorder"
+          element={<PrivateRoute redirectPath="/addorder" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <AddOrder />
+              </Master>
+            }
+          />
+        </Route>
+
+        <Route
+          path="/products"
+          element={<PrivateRoute redirectPath="/products" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <Products />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/addproduct"
+          element={<PrivateRoute redirectPath="/addproduct" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <AddProduct />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/editproduct/:uuid"
+          element={
+            <Master>
+              <EditProduct />
+            </Master>
+          }
+        />
+
+        <Route
+          path="/officers"
+          element={<PrivateRoute redirectPath="/officers" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <Officers />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/addofficer"
+          element={<PrivateRoute redirectPath="/addofficer" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <AddOfficer />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/editofficer/:uuid"
+          element={
+            <Master>
+              <EditOfficer />
+            </Master>
+          }
+        />
+        <Route
+          path="/viewofficer/:uuid"
+          element={
+            <Master>
+              <ViewOfficer />
+            </Master>
+          }
+        />
+
+        <Route
+          path="/customers"
+          element={<PrivateRoute redirectPath="/customers" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <Customers />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/addcustomer"
+          element={<PrivateRoute redirectPath="/addcustomer" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <AddCustomer />
+              </Master>
+            }
+          />
+        </Route>
+        <Route
+          path="/editcustomer/:uuid"
+          element={
+            <Master>
+              <EditCustomer />
+            </Master>
+          }
+        />
+        <Route
+          path="/viewcustomer/:uuid"
+          element={
+            <Master>
+              <ViewCustomer />
+            </Master>
+          }
+        />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
