@@ -83,7 +83,19 @@ const createProduct = async (req, res) => {
       if (req.file) {
         imagePath = req.normalizedImagePath;
       }
-      console.log(req.file);
+
+      // Perbarui validasi untuk productName, price, dan images
+      if (!productName || productName.length === 0) {
+        return res.status(400).json({ msg: "Product name is required." });
+      }
+
+      if (!price || isNaN(price)) {
+        return res.status(400).json({ msg: "Price must be a valid number." });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ msg: "Image is required." });
+      }
 
       await Product.create({
         productName,
