@@ -49,7 +49,7 @@ const createOfficer = async (req, res) => {
       password: hashPassword,
       roles: roles,
     });
-    res.status(201).json({ msg: "You've been registered!" });
+    res.status(201).json({ msg: "Officer has created successfully!" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }
