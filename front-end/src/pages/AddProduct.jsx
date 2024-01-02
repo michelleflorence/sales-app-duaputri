@@ -53,13 +53,14 @@ const AddProduct = () => {
       }
     } catch (error) {
       // Tangani kesalahan, misalnya, tampilkan pesan kesalahan kepada pengguna
-      console.error("Failed to add product:", error.response.data.msg);
+      toast.error("Failed to add product:", error.response.data.msg);
     }
   };
 
   const handleFileChange = (e) => {
     // Mengupdate state gambar saat ada perubahan pada input file
     setImageName(e.target.files[0]?.name || null);
+
     // Mengubah state image
     setImages(e.target.files[0] || null);
   };
@@ -67,7 +68,7 @@ const AddProduct = () => {
   const handleRemoveImage = () => {
     // Fungsi ini akan dipanggil ketika pengguna ingin menghapus gambar
     setImages(null);
-    // Lakukan hal lain yang perlu Anda lakukan setelah menghapus gambar
+    setImageName(null);
   };
 
   return (
@@ -182,6 +183,7 @@ const AddProduct = () => {
                   </div>
                 )}
                 <input
+                  accept=".jpeg, .jpg, .png, .webp"
                   id="dropzone-file"
                   type="file"
                   className="hidden"

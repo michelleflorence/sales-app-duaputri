@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import avatar from "../data/avatar2.jpg";
-import { Chat, Notification, UserProfile } from "../components";
+import avatar from "../data/avatar.jpg";
+import avatar2 from "../data/avatar2.jpg";
+import avatar3 from "../data/avatar3.jpg";
+import avatar4 from "../data/avatar4.jpg";
+import { UserProfile } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
 
@@ -87,6 +88,19 @@ const Navbar = () => {
     fetchOfficerData();
   }, []);
 
+  const roleAvatarMapping = {
+    // Tambahkan role dan avatar sesuai dengan kebutuhan Anda
+    superadmin: avatar2,
+    kasir: avatar3,
+    admin: avatar4,
+  };
+
+  // Dapatkan avatar berdasarkan role
+  const avatarImage =
+    officerData.roles && roleAvatarMapping[officerData.roles.toLowerCase()]
+      ? roleAvatarMapping[officerData.roles.toLowerCase()]
+      : avatar;
+
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <NavButton
@@ -97,28 +111,16 @@ const Navbar = () => {
       />
 
       <div className="flex">
-        <NavButton
-          title="Chat"
-          dotColor="#03C907"
-          customFunc={() => handleClick("chat")}
-          color={currentColor}
-          icon={<BsChatLeft />}
-        />
-
-        <NavButton
-          title="Notifications"
-          dotColor="#03C907"
-          customFunc={() => handleClick("notification")}
-          color={currentColor}
-          icon={<RiNotification3Line />}
-        />
-
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
-            <img className="rounded-full w-8 h-8" src={avatar} alt="avatar" />
+            <img
+              className="rounded-full w-8 h-8"
+              src={avatarImage}
+              alt="avatar"
+            />
             <p>
               <span className="text-gray-400 text=14">Hi, </span>{" "}
               <span className="text-gray-400 font-bold ml-1 text-14">
@@ -129,8 +131,6 @@ const Navbar = () => {
           </div>
         </TooltipComponent>
 
-        {isClicked.chat && <Chat />}
-        {isClicked.notification && <Notification />}
         {isClicked.userProfile && <UserProfile />}
       </div>
     </div>

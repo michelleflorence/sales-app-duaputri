@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { Button } from ".";
-import { userProfileData } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
+import avatar from "../data/avatar.jpg";
 import avatar2 from "../data/avatar2.jpg";
+import avatar3 from "../data/avatar3.jpg";
+import avatar4 from "../data/avatar4.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -50,6 +52,19 @@ const UserProfile = () => {
     handlePopup({ isPopupOpen: false });
   };
 
+  const roleAvatarMapping = {
+    superadmin: avatar2,
+    kasir: avatar3,
+    admin: avatar4,
+    // Tambahkan role dan avatar sesuai dengan kebutuhan Anda
+  };
+
+  // Dapatkan avatar berdasarkan role
+  const avatarImage =
+    officerData.roles && roleAvatarMapping[officerData.roles.toLowerCase()]
+      ? roleAvatarMapping[officerData.roles.toLowerCase()]
+      : avatar;
+
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
@@ -66,7 +81,7 @@ const UserProfile = () => {
       <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
         <img
           className="rounded-full h-24 w-24"
-          src={avatar2}
+          src={avatarImage}
           alt="user-profile"
         />
         <div>
@@ -80,29 +95,6 @@ const UserProfile = () => {
             {officerData.email}
           </p>
         </div>
-      </div>
-      <div>
-        {userProfileData.map((item, index) => (
-          <div
-            key={index}
-            className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer  dark:hover:bg-[#42464D]"
-          >
-            <button
-              type="button"
-              style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-              className=" text-xl rounded-lg p-3 hover:bg-light-gray"
-            >
-              {item.icon}
-            </button>
-
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
-                {item.desc}
-              </p>
-            </div>
-          </div>
-        ))}
       </div>
       <div className="mt-5">
         <Button

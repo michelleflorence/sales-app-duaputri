@@ -13,7 +13,6 @@ const EditCustomer = () => {
 
   const [customerData, setCustomerData] = useState({
     name: "",
-    email: "",
     phone: "",
   });
 
@@ -67,7 +66,8 @@ const EditCustomer = () => {
         toast.error("Failed to update product:", response.data.msg);
       }
     } catch (error) {
-      console.error("Error editing customer:", error);
+      console.log("Error editing customer:", error.response.data);
+      toast.error(error.response.data.msg)
     }
   };
 
@@ -116,24 +116,6 @@ const EditCustomer = () => {
               id="phone"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Type customer phone"
-              required
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Customer Email
-            </label>
-            <input
-              value={customerData.email}
-              onChange={handleChange}
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Type customer email"
               required
             />
           </div>

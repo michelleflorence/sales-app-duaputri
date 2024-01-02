@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  Ecommerce,
+  Dashboard,
   Orders,
   Officers,
   Customers,
@@ -16,6 +16,9 @@ import {
   ViewOfficer,
   EditOfficer,
   EditProduct,
+  ViewProduct,
+  EditOrder,
+  ViewOrder,
 } from "./pages";
 import Master from "./layout/Master";
 import "./App.css";
@@ -35,7 +38,7 @@ const App = () => {
             index
             element={
               <Master>
-                <Ecommerce />
+                <Dashboard />
               </Master>
             }
           />
@@ -48,7 +51,7 @@ const App = () => {
             index
             element={
               <Master>
-                <Ecommerce />
+                <Dashboard />
               </Master>
             }
           />
@@ -78,6 +81,22 @@ const App = () => {
             }
           />
         </Route>
+        <Route
+          path="/editorder/:uuid"
+          element={
+            <Master>
+              <EditOrder />
+            </Master>
+          }
+        />
+        <Route
+          path="/vieworder/:uuid"
+          element={
+            <Master>
+              <ViewOrder />
+            </Master>
+          }
+        />
 
         <Route
           path="/products"
@@ -110,6 +129,14 @@ const App = () => {
           element={
             <Master>
               <EditProduct />
+            </Master>
+          }
+        />
+        <Route
+          path="/viewproduct/:uuid"
+          element={
+            <Master>
+              <ViewProduct />
             </Master>
           }
         />

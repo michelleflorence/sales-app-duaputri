@@ -16,8 +16,11 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import blank from "../data/blank.jpg";
+import { GridProductStatus } from "../data/dummy";
 
 const Products = () => {
+  const [officerData, setOfficerData] = useState({});
   const { currentColor } = useStateContext();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(0);
@@ -95,6 +98,36 @@ const Products = () => {
     }
   };
 
+  // Fungsi untuk mengambil data officer yang sedang login
+  useEffect(() => {
+    const fetchOfficerData = async () => {
+      try {
+        // Mengambil token dari local storage
+        const token = localStorage.getItem("token");
+
+        // Menyiapkan header Authorization dengan menggunakan token
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        // Mendapatkan data officer yang sedang login
+        const response = await axios.get("http://localhost:5000/me", {
+          headers,
+        });
+
+        // Set data officer ke state
+        setOfficerData(response.data);
+      } catch (error) {
+        console.error("Error fetching officer data:", error);
+      }
+    };
+
+    fetchOfficerData();
+  }, []);
+
+  // Menentukan apakah officer memiliki peran cashier
+  const isAdmin = officerData.roles === "admin";
+
   const handleChangePage = (event, newPage) => {
     // Fungsi ini dipanggil saat pengguna mengubah halaman pada tata letak paginasi.
 
@@ -124,15 +157,17 @@ const Products = () => {
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Products" />
-      <Link to="/addproduct">
-        <button
-          type="button"
-          className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-          style={{ backgroundColor: currentColor }}
-        >
-          Add Product
-        </button>
-      </Link>
+      {isAdmin && (
+        <Link to="/addproduct">
+          <button
+            type="button"
+            className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+            style={{ backgroundColor: currentColor }}
+          >
+            Add Product
+          </button>
+        </Link>
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead style={{ backgroundColor: "#F5F5F5" }}>
@@ -141,61 +176,70 @@ const Products = () => {
               <TableCell align="center">Price</TableCell>
               <TableCell align="center">Images</TableCell>
               <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Action</TableCell>
+              {isAdmin && <TableCell align="center">Action</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? // Jika jumlah baris per halaman lebih dari 0, artinya paginasi diaktifkan.
-                // Tampilkan sejumlah baris sesuai dengan nilai 'rowsPerPage' dan halaman aktif.
-                products.slice(
+              ? products.slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
-              : // Jika jumlah baris per halaman 0 atau kurang, artinya paginasi dinonaktifkan.
-                // Dalam hal ini, tampilkan semua produk yang ada.
-                products
+              : products
             ).map((product) => (
-              // Mengeksekusi pemetaan untuk setiap produk yang akan ditampilkan pada tabel.
-              // Logika di atas memastikan bahwa hanya sejumlah produk yang sesuai dengan halaman dan
-              // jumlah baris per halaman yang ditampilkan.
               <TableRow
                 key={product.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">{product.productName}</TableCell>
-                <TableCell align="center">{product.price}</TableCell>
+                <TableCell align="center">
+                  {`Rp. ${Number(product.price).toLocaleString("id-ID")}`}
+                </TableCell>
                 <TableCell align="center">
                   <div
                     className="image flex gap-4"
                     style={{ textAlign: "center" }}
                   >
-                    <img
-                      className="rounded-md w-20 h-20"
-                      src={`http://localhost:5000/uploads/${product.images}`}
-                      alt="Product Images"
-                      style={{ margin: "auto", objectFit: "cover" }}
-                    />
+                    {product.images ? (
+                      <img
+                        className="rounded-md w-20 h-20"
+                        src={`http://localhost:5000/uploads/${product.images}`}
+                        alt="Product Images"
+                        style={{ margin: "auto", objectFit: "cover" }}
+                      />
+                    ) : (
+                      <img
+                        className="rounded-md w-20 h-20"
+                        src={blank}
+                        alt="Product Images"
+                        style={{ margin: "auto", objectFit: "cover" }}
+                      />
+                    )}
                   </div>
                 </TableCell>
                 <TableCell align="center">
-                  {product.status === 0 ? "Available" : "Empty"}
+                  <GridProductStatus
+                    Status={product.status === 0 ? "Available" : "Empty"}
+                    StatusBg={product.status === 0 ? "#478778" : "#D22B2B"}
+                  />
                 </TableCell>
-                <TableCell align="center">
-                  <div className="flex items-center justify-center gap-2">
-                    <Link to={`/editproduct/${product.uuid}`}>
-                      <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
-                        <FiEdit />
+                {isAdmin && (
+                  <TableCell align="center">
+                    <div className="flex items-center justify-center gap-2">
+                      <Link to={`/editproduct/${product.uuid}`}>
+                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
+                          <FiEdit />
+                        </button>
+                      </Link>
+                      <button
+                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
+                        onClick={() => handleDeleteProduct(product.uuid)}
+                      >
+                        <MdOutlineDeleteOutline />
                       </button>
-                    </Link>
-                    <button
-                      className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
-                      onClick={() => handleDeleteProduct(product.uuid)}
-                    >
-                      <MdOutlineDeleteOutline />
-                    </button>
-                  </div>
-                </TableCell>
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

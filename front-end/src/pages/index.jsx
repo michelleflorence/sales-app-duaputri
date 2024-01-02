@@ -1,4 +1,4 @@
-export { default as Ecommerce } from "./Ecommerce";
+export { default as Dashboard } from "./Dashboard";
 export { default as Orders } from "./Orders";
 export { default as Officers } from "./Officers";
 export { default as Customers } from "./Customers";
@@ -7,7 +7,10 @@ export { default as Login } from "./Login";
 export { default as SignUp } from "./SignUp";
 export { default as AddProduct } from "./AddProduct";
 export { default as EditProduct } from "./EditProduct";
+export { default as ViewProduct } from "./ViewProduct";
 export { default as AddOrder } from "./AddOrder";
+export { default as EditOrder } from "./EditOrder";
+export { default as ViewOrder } from "./ViewOrder";
 export { default as AddCustomer } from "./AddCustomer";
 export { default as EditCustomer } from "./EditCustomer";
 export { default as ViewCustomer } from "./ViewCustomer";

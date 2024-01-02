@@ -66,18 +66,6 @@ const ViewCustomer = () => {
                   </div>
                 </div>
               </li>
-              <li className="py-3 sm:py-4">
-                <div className="flex items-center">
-                  <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
-                      Customer Email
-                    </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
-                      {customerData.email}
-                    </p>
-                  </div>
-                </div>
-              </li>
             </ul>
             <Link to="/customers">
               <button

@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 const Officers = () => {
   const { currentColor } = useStateContext();
   const [officersData, setOfficers] = useState([]);
+  const [loginOfficerData, setLoginOfficerData] = useState([]);
 
   // Get data officers
   const fetchOfficersData = async () => {
@@ -96,6 +97,33 @@ const Officers = () => {
     }
   };
 
+  // Fungsi untuk mengambil data officer yang sedang login
+  useEffect(() => {
+    const fetchLoginOfficerData = async () => {
+      try {
+        // Mengambil token dari local storage
+        const token = localStorage.getItem("token");
+
+        // Menyiapkan header Authorization dengan menggunakan token
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        // Mendapatkan data officer yang sedang login
+        const response = await axios.get("http://localhost:5000/me", {
+          headers,
+        });
+
+        // Set data officer ke state
+        setLoginOfficerData(response.data);
+      } catch (error) {
+        console.error("Error fetching officer data:", error);
+      }
+    };
+
+    fetchLoginOfficerData();
+  }, []);
+
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Officers" />
@@ -119,36 +147,46 @@ const Officers = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {officersData.map((officer) => (
-              <TableRow
-                key={officer.name} // Tambahkan key di sini
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">{officer.name}</TableCell>
-                <TableCell align="center">{officer.email}</TableCell>
-                <TableCell align="center">{officer.roles}</TableCell>
-                <TableCell align="center">
-                  <div className="flex items-center justify-center gap-2">
-                    <Link to={`/viewofficer/${officer.uuid}`}>
-                      <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 dark:hover:bg-light-gray text-white bg-emerald-700 rounded-full">
-                        <FaEye />
+            {officersData
+              .filter((officer) => {
+                // Filter data berdasarkan officer yang login
+                if (loginOfficerData.roles === "superadmin") {
+                  // Jika yang login adalah superadmin, filter data yang tidak memiliki peran superadmin
+                  return officer.roles !== "superadmin";
+                }
+                // Jika yang login bukan superadmin, tampilkan semua data
+                return true;
+              })
+              .map((officer) => (
+                <TableRow
+                  key={officer.name} // Tambahkan key di sini
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center">{officer.name}</TableCell>
+                  <TableCell align="center">{officer.email}</TableCell>
+                  <TableCell align="center">{officer.roles}</TableCell>
+                  <TableCell align="center">
+                    <div className="flex items-center justify-center gap-2">
+                      <Link to={`/viewofficer/${officer.uuid}`}>
+                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 dark:hover:bg-light-gray text-white bg-emerald-700 rounded-full">
+                          <FaEye />
+                        </button>
+                      </Link>
+                      <Link to={`/editofficer/${officer.uuid}`}>
+                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
+                          <FiEdit />
+                        </button>
+                      </Link>
+                      <button
+                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
+                        onClick={() => handleDeleteOfficer(officer.uuid)}
+                      >
+                        <MdOutlineDeleteOutline />
                       </button>
-                    </Link>
-                    <Link to={`/editofficer/${officer.uuid}`}>
-                      <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
-                        <FiEdit />
-                      </button>
-                    </Link>
-                    <button
-                      className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
-                      onClick={() => handleDeleteOfficer(officer.uuid)}
-                    >
-                      <MdOutlineDeleteOutline />
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -157,24 +195,3 @@ const Officers = () => {
 };
 
 export default Officers;
-
-// return (
-//   <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
-//     {/* Judul */}
-//     <Header category="Page" title="Officers"/>
-//     <GridComponent
-//       dataSource={officersData}
-//       allowPaging={true}
-//       allowSorting={true}
-//       toolbar={['Search']}
-//       width="auto"
-//     >
-//       <ColumnsDirective>
-//         {officersGrid.map((item, index) =>
-//           <ColumnDirective key={index} {...item} />
-//         )}
-//       </ColumnsDirective>
-//       <Inject services={[Page, Search, Toolbar]}/>
-//     </GridComponent>
-//   </div>
-// )

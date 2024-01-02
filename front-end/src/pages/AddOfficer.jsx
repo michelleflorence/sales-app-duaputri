@@ -54,8 +54,13 @@ const AddOfficer = () => {
         confPassword: "",
       });
 
-      // Alihkan ke halaman tabel pelanggan setelah berhasil menambahkan
-      navigate("/officers");
+      if (response.status === 201) {
+        toast.success(response.data.msg);
+        // Redirect ke halaman produk setelah penambahan produk
+        navigate("/officers");
+      } else {
+        toast.error(response.data.msg);
+      }
     } catch (error) {
       // Tangani kesalahan jika terjadi
       console.error("Error during add officer:", error);
@@ -90,6 +95,7 @@ const AddOfficer = () => {
               required
             />
           </div>
+
           <div className="w-full">
             <label
               htmlFor="email"
@@ -108,6 +114,7 @@ const AddOfficer = () => {
               required
             />
           </div>
+
           <div>
             <label
               htmlFor="roles"
@@ -115,17 +122,19 @@ const AddOfficer = () => {
             >
               Roles
             </label>
-            <input
+            <select
               value={officerData.roles}
               onChange={handleChange}
-              type="roles"
               name="roles"
               id="roles"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Type officer roles"
               required
-            />
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option value="admin">admin</option>
+              <option value="kasir">kasir</option>
+            </select>
           </div>
+
           <div className="sm:col-span-2">
             <label
               htmlFor="password"
@@ -145,6 +154,7 @@ const AddOfficer = () => {
               required
             />
           </div>
+
           <div className="sm:col-span-2">
             <label
               htmlFor="confPassword"
@@ -165,6 +175,7 @@ const AddOfficer = () => {
             />
           </div>
         </div>
+
         <div className="flex gap-2">
           <button
             type="submit"

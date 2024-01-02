@@ -8,13 +8,13 @@ import { ToastContainer, toast } from "react-toastify";
 
 const EditProduct = () => {
   const { currentColor } = useStateContext();
-  const [imageName, setImageName] = useState("");
   const navigate = useNavigate();
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [status, setStatus] = useState("0");
-  const [images, setImages] = useState(null);
   const { uuid } = useParams(); // Mendapatkan ID produk dari parameter URL
+  // const [imageName, setImageName] = useState("");
+  // const [images, setImages] = useState(null);
 
   useEffect(() => {
     // Fungsi untuk mendapatkan data produk yang akan diperbarui
@@ -67,9 +67,9 @@ const EditProduct = () => {
       formData.append("status", status);
 
       // Jika ada gambar yang dipilih, tambahkan ke FormData
-      if (images) {
-        formData.append("images", images);
-      }
+      // if (images) {
+      //   formData.append("images", images);
+      // }
 
       // Mengirim permintaan ke server untuk pembaruan produk
       const response = await axios.patch(
@@ -87,7 +87,8 @@ const EditProduct = () => {
         toast.error("Failed to update product:", response.data.msg);
       }
     } catch (error) {
-      console.error("Error updating product:", error.message);
+      console.error("Error updating product:", error.response);
+      toast.error(error.response.data.msg);
     }
   };
 
@@ -102,6 +103,13 @@ const EditProduct = () => {
   const handleRemoveImage = () => {
     // Fungsi ini akan dipanggil ketika pengguna ingin menghapus gambar
     setImages(null);
+    setImageName(null);
+
+    // Mengosongkan input file untuk memicu event onChange
+    const fileInput = document.getElementById("dropzone-file");
+    if (fileInput) {
+      fileInput.value = null;
+    }
     // Lakukan hal lain yang perlu Anda lakukan setelah menghapus gambar
   };
 
@@ -164,7 +172,7 @@ const EditProduct = () => {
               <option value="1">Empty</option>
             </select>
           </div>
-          <div>
+          {/* <div>
             <label
               htmlFor="images"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -218,6 +226,7 @@ const EditProduct = () => {
                   </div>
                 )}
                 <input
+                  accept=".jpeg, .jpg, .png, .webp"
                   id="dropzone-file"
                   type="file"
                   className="hidden"
@@ -225,7 +234,7 @@ const EditProduct = () => {
                 />
               </label>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex gap-2">
           <button
