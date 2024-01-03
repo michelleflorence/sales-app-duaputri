@@ -116,7 +116,7 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
               <img className="w-14" src={logoDuaPutri} alt="logoDuaPutri" />{" "}
-              <span className="dark:text-white" style={{ color: currentColor }}>
+              <span className="dark:text-gray-200">
                 Dua Putri
               </span>
             </Link>

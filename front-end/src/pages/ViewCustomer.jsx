@@ -32,23 +32,20 @@ const ViewCustomer = () => {
   }, [uuid]);
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="View Customer" />
       {/* Card */}
       <div className="flex items-center justify-center h-full">
-        <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
           <div className="flow-root">
-            <ul
-              role="list"
-              className="divide-y divide-gray-200 dark:divide-gray-700"
-            >
+            <ul role="list" className="divide-y divide-gray-200">
               <li className="py-3 sm:py-4">
                 <div className="flex items-center">
                   <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
+                    <p className="text-base font-bold text-gray-900 truncate">
                       Customer Name
                     </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
+                    <p className="text-base text-gray-600 truncate">
                       {customerData.name}
                     </p>
                   </div>
@@ -57,10 +54,10 @@ const ViewCustomer = () => {
               <li className="py-3 sm:py-4">
                 <div className="flex items-center ">
                   <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
+                    <p className="text-base font-bold text-gray-900 truncate">
                       Customer Phone
                     </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
+                    <p className="text-base text-gray-600 truncate">
                       {customerData.phone}
                     </p>
                   </div>

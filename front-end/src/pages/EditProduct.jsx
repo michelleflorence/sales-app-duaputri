@@ -114,7 +114,7 @@ const EditProduct = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Edit Product" />
       <form method="POST" onSubmit={handleUpdateProduct}>
         <ToastContainer />
@@ -122,7 +122,7 @@ const EditProduct = () => {
           <div className="sm:col-span-2">
             <label
               htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Product Name
             </label>
@@ -132,7 +132,7 @@ const EditProduct = () => {
               type="text"
               name="name"
               id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type product name"
               required
             />
@@ -140,7 +140,7 @@ const EditProduct = () => {
           <div className="w-full">
             <label
               htmlFor="price"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Price
             </label>
@@ -150,7 +150,7 @@ const EditProduct = () => {
               type="number"
               name="price"
               id="price"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="2000.00"
               required
             />
@@ -158,7 +158,7 @@ const EditProduct = () => {
           <div>
             <label
               htmlFor="status"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Status
             </label>
@@ -166,7 +166,7 @@ const EditProduct = () => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               id="status"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
             >
               <option value="0">Available</option>
               <option value="1">Empty</option>
@@ -175,7 +175,7 @@ const EditProduct = () => {
           {/* <div>
             <label
               htmlFor="images"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Images
             </label>

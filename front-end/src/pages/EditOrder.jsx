@@ -128,14 +128,14 @@ const EditOrder = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Edit Order" />
       <form method="POST" onSubmit={handleUpdateOrder}>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="sm:col-span-2">
             <label
               htmlFor="customerName"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Customer Name
             </label>
@@ -145,14 +145,14 @@ const EditOrder = () => {
               type="text"
               name="customerName"
               id="customerName"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type customer name"
             />
           </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="customerPhone"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Customer Phone
             </label>
@@ -162,7 +162,7 @@ const EditOrder = () => {
               type="text"
               name="customerPhone"
               id="customerPhone"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type customer phone"
             />
           </div>

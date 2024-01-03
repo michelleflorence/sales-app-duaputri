@@ -98,14 +98,14 @@ const AddOrder = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Add Order" />
       <form method="POST" onSubmit={handleAddOrder}>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="sm:col-span-2">
             <label
               htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Customer Name
             </label>
@@ -115,14 +115,14 @@ const AddOrder = () => {
               type="text"
               name="name"
               id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type customer name"
             />
           </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="phone"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Customer Phone
             </label>
@@ -132,7 +132,7 @@ const AddOrder = () => {
               type="text"
               name="phone"
               id="phone"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type customer phone"
               required
             />
@@ -140,7 +140,7 @@ const AddOrder = () => {
           <div className="sm:col-span-2">
             <label
               htmlFor="items"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Items
             </label>
@@ -148,7 +148,7 @@ const AddOrder = () => {
               <div key={index} className="flex items-center mb-2 gap-4">
                 <select
                   name={`item-${index}`}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 flex-1 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 flex-1 p-2.5"
                   value={item.uuid}
                   // Menangani perubahan pada dropdown dan memperbarui nilai uuid pada item
                   onChange={(e) =>
@@ -173,7 +173,7 @@ const AddOrder = () => {
                   type="number"
                   name={`qty-${index}`}
                   placeholder="Enter quantity"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 flex-1 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 flex-1 p-2.5"
                   value={item.qty}
                   // Menangani perubahan pada input dan memperbarui nilai qty pada item
                   onChange={(e) =>
@@ -198,7 +198,7 @@ const AddOrder = () => {
           <div>
             <label
               htmlFor="paymentType"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Payment Type
             </label>
@@ -207,7 +207,7 @@ const AddOrder = () => {
               onChange={(e) => setPaymentType(e.target.value)}
               name="paymentType"
               id="paymentType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
             >
               <option value="Cash">Cash</option>
               <option value="QRIS">QRIS</option>

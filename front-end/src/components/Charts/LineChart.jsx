@@ -31,30 +31,33 @@ const LineChart = ({ data, title, label, height, width }) => {
             {
               label,
               data: data.map((v) => v.y),
-              backgroundColor: [
-                "rgba(75,192,192,1)",
-                "&quot;#ecf0f1",
-                "#50AF95",
-                "#f3ba2f",
-                "#2a71d0",
-              ],
+              backgroundColor: ["#beb9db"],
               fill: false,
               tension: 0.4,
               pointRadius: 5,
               borderColor: "#114250",
-              borderWidth: 2,
+              borderWidth: 1,
             },
           ],
         }}
         options={{
           responsive: true,
           plugins: {
+            animation: {
+              duration: 1000, // durasi animasi dalam milidetik
+            },
             legend: {
               position: "top",
             },
             title: {
               display: true,
               text: title,
+              font: {
+                size: 14,
+                family: "Open Sans, sans-serif",
+                weight: 700,
+                lineHeight: 1.5,
+              }, // Ubah sesuai kebutuhan
             },
           },
           scales: {

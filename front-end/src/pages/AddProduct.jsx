@@ -72,14 +72,14 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Add Product" />
       <form method="POST" onSubmit={handleAddProduct}>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="sm:col-span-2">
             <label
               htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 "
             >
               Product Name
             </label>
@@ -89,7 +89,7 @@ const AddProduct = () => {
               type="text"
               name="name"
               id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Type product name"
               required
             />
@@ -97,7 +97,7 @@ const AddProduct = () => {
           <div className="w-full">
             <label
               htmlFor="price"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 "
             >
               Price
             </label>
@@ -107,7 +107,7 @@ const AddProduct = () => {
               type="number"
               name="price"
               id="price"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="2000.00"
               required
             />
@@ -115,7 +115,7 @@ const AddProduct = () => {
           <div>
             <label
               htmlFor="status"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Status
             </label>
@@ -123,7 +123,7 @@ const AddProduct = () => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               id="status"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
             >
               <option value="0">Available</option>
               <option value="1">Empty</option>
@@ -132,14 +132,14 @@ const AddProduct = () => {
           <div>
             <label
               htmlFor="images"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 "
             >
               Images
             </label>
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
               >
                 {imageName ? (
                   <div>
@@ -151,7 +151,7 @@ const AddProduct = () => {
                     <button
                       type="button"
                       onClick={handleRemoveImage}
-                      className="text-sm text-red-500 dark:text-red-400 hover:underline focus:outline-none"
+                      className="text-sm text-red-500 hover:underline focus:outline-none"
                     >
                       Remove Image
                     </button>

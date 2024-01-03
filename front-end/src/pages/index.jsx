@@ -4,7 +4,6 @@ export { default as Officers } from "./Officers";
 export { default as Customers } from "./Customers";
 export { default as Products } from "./Products";
 export { default as Login } from "./Login";
-export { default as SignUp } from "./SignUp";
 export { default as AddProduct } from "./AddProduct";
 export { default as EditProduct } from "./EditProduct";
 export { default as ViewProduct } from "./ViewProduct";

@@ -134,7 +134,7 @@ const Orders = () => {
       // Jika officer adalah superadmin, hanya tampilkan tombol 'View'
       return (
         <Link to={`/vieworder/${order.uuid}`}>
-          <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 dark:hover:bg-light-gray text-white bg-emerald-700 rounded-full">
+          <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 text-white bg-emerald-700 rounded-full">
             <FaEye />
           </button>
         </Link>
@@ -144,17 +144,17 @@ const Orders = () => {
       return (
         <div className="flex items-center justify-center gap-2">
           <Link to={`/vieworder/${order.uuid}`}>
-            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 dark:hover:bg-light-gray text-white bg-emerald-700 rounded-full">
+            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 text-white bg-emerald-700 rounded-full">
               <FaEye />
             </button>
           </Link>
           {/* <Link to={`/editorder/${order.uuid}`}>
-            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
+            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
               <FiEdit />
             </button>
           </Link> */}
           <button
-            className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
+            className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
             onClick={() => handleDeleteOrder(order.uuid)}
           >
             <MdOutlineDeleteOutline />
@@ -194,7 +194,7 @@ const Orders = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Orders" />
       {isCashier && (
         <Link to="/addorder">

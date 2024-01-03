@@ -31,7 +31,6 @@ const ViewProduct = () => {
 
         // Mengisi state dengan data produk yang diterima
         const productData = response.data;
-        console.log("Status:", productData.status);
         setProductName(productData.productName);
         setPrice(productData.price);
         setStatus(productData.status);
@@ -45,12 +44,12 @@ const ViewProduct = () => {
   }, [uuid]);
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="View Product" />
 
       {/* CARD */}
       <div className="flex items-center justify-center h-full">
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
           <img
             className="rounded-t-lg"
             style={{
@@ -69,15 +68,15 @@ const ViewProduct = () => {
           <div className="p-5">
             <ul
               role="list"
-              className="divide-y divide-gray-200 dark:divide-gray-700"
+              className="divide-y divide-gray-200"
             >
               <li className="py-3 sm:py-4">
                 <div className="flex items-center">
                   <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
+                    <p className="text-base font-bold text-gray-900 truncate">
                       Product Name
                     </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
+                    <p className="text-base text-gray-600 truncate">
                       {productName}
                     </p>
                   </div>
@@ -86,13 +85,11 @@ const ViewProduct = () => {
               <li className="py-3 sm:py-4">
                 <div className="flex items-center">
                   <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
+                    <p className="text-base font-bold text-gray-900 truncate">
                       Price
                     </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
-                      {`Rp. ${Number(price).toLocaleString(
-                        "id-ID"
-                      )}`}
+                    <p className="text-base text-gray-600 truncate">
+                      {`Rp. ${Number(price).toLocaleString("id-ID")}`}
                     </p>
                   </div>
                 </div>
@@ -100,10 +97,10 @@ const ViewProduct = () => {
               <li className="py-3 sm:py-4">
                 <div className="flex items-center ">
                   <div className="flex-1 min-w-0 ms-4">
-                    <p className="text-base font-bold text-gray-900 truncate dark:text-white">
+                    <p className="text-base font-bold text-gray-900 truncate">
                       Status
                     </p>
-                    <p className="text-base text-gray-600 truncate dark:text-gray-400">
+                    <p className="text-base text-gray-600 truncate">
                       {status === 0 ? "Available" : "Empty"}
                     </p>
                   </div>

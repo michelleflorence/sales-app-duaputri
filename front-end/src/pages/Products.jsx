@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Header } from "../components";
+import { Header, ViewImages } from "../components";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -25,6 +25,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // Get all data product
   const fetchProductsData = async () => {
@@ -154,8 +155,17 @@ const Products = () => {
     setPage(0);
   };
 
+  const handleImageClick = (uuid) => {
+    // Set state selectedImage dengan UUID produk yang diklik
+    setSelectedImage(uuid);
+  };
+
+  const handleCloseViewImages = () => {
+    setSelectedImage(null);
+  };
+
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
       <Header category="Page" title="Products" />
       {isAdmin && (
         <Link to="/addproduct">
@@ -205,7 +215,12 @@ const Products = () => {
                         className="rounded-md w-20 h-20"
                         src={`http://localhost:5000/uploads/${product.images}`}
                         alt="Product Images"
-                        style={{ margin: "auto", objectFit: "cover" }}
+                        style={{
+                          margin: "auto",
+                          objectFit: "cover",
+                          cursor: "pointer", // Add cursor pointer
+                        }}
+                        onClick={() => handleImageClick(product.uuid)}
                       />
                     ) : (
                       <img
@@ -213,6 +228,7 @@ const Products = () => {
                         src={blank}
                         alt="Product Images"
                         style={{ margin: "auto", objectFit: "cover" }}
+                        onClick={() => handleImageClick(blank)}
                       />
                     )}
                   </div>
@@ -227,12 +243,12 @@ const Products = () => {
                   <TableCell align="center">
                     <div className="flex items-center justify-center gap-2">
                       <Link to={`/editproduct/${product.uuid}`}>
-                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
+                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
                           <FiEdit />
                         </button>
                       </Link>
                       <button
-                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
+                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
                         onClick={() => handleDeleteProduct(product.uuid)}
                       >
                         <MdOutlineDeleteOutline />
@@ -255,6 +271,10 @@ const Products = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      {/* Menampilkan komponen ViewImages jika selectedImage tidak null */}
+      {selectedImage && (
+        <ViewImages uuid={selectedImage} handleClose={handleCloseViewImages} />
+      )}
     </div>
   );
 };
