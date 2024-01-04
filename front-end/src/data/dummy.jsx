@@ -1,28 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import {
-  FiBarChart,
-  FiCreditCard,
-  FiStar,
-  FiShoppingCart,
-} from "react-icons/fi";
+import { FiBarChart, FiCreditCard } from "react-icons/fi";
 import {
   BsBoxSeam,
   BsCurrencyDollar,
   BsShield,
-  BsChatLeft,
   BsBox2Heart,
 } from "react-icons/bs";
 import { ImStatsBars2 } from "react-icons/im";
 import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine } from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { HiOutlineRefresh } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
+import axios from "axios";
 
 export const GridOrderStatus = (props) => (
   <button
@@ -133,15 +127,6 @@ export const earningData = [
     iconBg: "rgb(255, 244, 229)",
 
     pcColor: "green-600",
-  },
-  {
-    icon: <HiOutlineRefresh />,
-    amount: "39,354",
-    percentage: "-12%",
-    title: "Refunds",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
   },
 ];
 
@@ -332,3 +317,105 @@ export const stackedPrimaryYAxis = {
   minorTickLines: { width: 0 },
   labelFormat: "{value}",
 };
+
+const totalEarningData = () => {
+  const [totalCustomers, setTotalCustomers] = useState([]);
+  const [totalProducts, setTotalProducts] = useState([]);
+  const [totalOrders, setTotalOrders] = useState([]);
+
+  // Get total customers
+  const getTotalCustomers = async () => {
+    try {
+      // Mengambil token dari local storage
+      const token = localStorage.getItem("token");
+
+      // Menyiapkan header Authorization dengan menggunakan token
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.get("http://localhost:5000/customers", {
+        headers,
+      });
+      setTotalCustomers(response.data.totalCustomers);
+    } catch (error) {
+      console.log("Error fetching customers data:", error.response.data);
+    }
+  };
+
+  // Get total products
+  const getTotalProducts = async () => {
+    try {
+      // Mengambil token dari local storage
+      const token = localStorage.getItem("token");
+
+      // Menyiapkan header Authorization dengan menggunakan token
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.get("http://localhost:5000/products/total", {
+        headers,
+      });
+      setTotalProducts(response.data);
+    } catch (error) {
+      console.log("Error fetching product data:", error.response.data);
+    }
+  };
+
+  const getTotalOrders = async () => {
+    try {
+      // Mengambil token dari local storage
+      const token = localStorage.getItem("token");
+
+      // Menyiapkan header Authorization dengan menggunakan token
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.get("http://localhost:5000/orders/total", {
+        headers,
+      });
+      setTotalOrders(response.data.totalOrders);
+    } catch (error) {
+      console.log("Error fetching product data:", error.response.data);
+    }
+  };
+
+  // Panggil fetchCustomersData dalam useEffect
+  useEffect(() => {
+    getTotalCustomers();
+    getTotalProducts();
+    getTotalOrders();
+  }, []);
+
+  // Return the earningData array
+  return [
+    {
+      icon: <MdOutlineSupervisorAccount />,
+      amount: totalCustomers, // Use totalCustomers here
+      title: "Customers",
+      iconColor: "#03C9D7",
+      iconBg: "#E5FAFB",
+      pcColor: "red-600",
+    },
+    {
+      icon: <BsBoxSeam />,
+      amount: totalProducts,
+      title: "Products",
+      iconColor: "rgb(255, 244, 229)",
+      iconBg: "rgb(254, 201, 15)",
+      pcColor: "green-600",
+    },
+    {
+      icon: <FiBarChart />,
+      amount: totalOrders,
+      title: "Orders",
+      iconColor: "rgb(228, 106, 118)",
+      iconBg: "rgb(255, 244, 229)",
+
+      pcColor: "green-600",
+    },
+  ];
+};
+export default totalEarningData;

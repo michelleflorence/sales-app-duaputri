@@ -33,9 +33,9 @@ const Customers = () => {
       const response = await axios.get("http://localhost:5000/customers", {
         headers,
       });
-      setCustomersData(response.data);
+      setCustomersData(response.data.customers);
     } catch (error) {
-      console.error("Error fetching customers data:", error);
+      console.log("Error fetching customers data:", error.response.data);
     }
   };
 

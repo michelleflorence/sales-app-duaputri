@@ -26,7 +26,6 @@ const StackedBarChart = ({ title, width, height }) => {
 
         // Extracting data from the API paymentChart
         const data = paymentChart.data;
-        console.log(data);
 
         // Transforming data to match the Chart.js format for stacked bar chart
         const transformedData = {
