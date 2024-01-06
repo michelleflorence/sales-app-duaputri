@@ -12,7 +12,7 @@ const AddOfficer = () => {
   const [officerData, setOfficerData] = useState({
     name: "",
     email: "",
-    roles: "",
+    roles: "admin",
     password: "",
     confPassword: "",
   });
@@ -127,7 +127,6 @@ const AddOfficer = () => {
               onChange={handleChange}
               name="roles"
               id="roles"
-              required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
             >
               <option value="admin">admin</option>

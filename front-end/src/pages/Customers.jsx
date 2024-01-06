@@ -7,6 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
@@ -18,6 +19,9 @@ import Swal from "sweetalert2";
 const Customers = () => {
   const [officerData, setOfficerData] = useState([]);
   const [customersData, setCustomersData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // Get all data customer
   const fetchCustomersData = async () => {
@@ -118,6 +122,32 @@ const Customers = () => {
     fetchOfficerData();
   }, []);
 
+  const handleChangePage = (event, newPage) => {
+    // Fungsi ini dipanggil saat pengguna mengubah halaman pada tata letak paginasi.
+
+    // Parameter 'event' mungkin digunakan di implementasi lain,
+    // namun di sini kita hanya memerlukannya untuk mendapatkan nilai 'newPage'.
+
+    // 'newPage': Parameter ini berisi nilai halaman baru yang dipilih oleh pengguna.
+    // Nilai ini diterima dari komponen paginasi dan akan digunakan untuk
+    // memperbarui state 'page', sehingga tata letak dapat diubah sesuai.
+
+    // Memanggil 'setPage(newPage)' untuk mengatur state 'page' dengan nilai 'newPage',
+    // sehingga komponen dapat merender dengan halaman yang sesuai.
+
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    // Mengubah nilai jumlah baris per halaman yang dipilih oleh pengguna
+    // dari tipe string menjadi tipe bilangan bulat menggunakan parseInt.
+    // Parameter 10 menunjukkan penggunaan sistem bilangan desimal (base 10).
+    setRowsPerPage(parseInt(event.target.value, 10));
+
+    // Setelah mengatur jumlah baris per halaman, atur halaman aktif kembali ke halaman pertama
+    setPage(0);
+  };
+
   // Menentukan apakah officer memiliki peran cashier
   const isCashier = officerData.roles === "kasir";
 
@@ -134,7 +164,13 @@ const Customers = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customersData.map((customer) => (
+            {(rowsPerPage > 0
+              ? customersData.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : customersData
+            ).map((customer) => (
               <TableRow
                 key={customer.uuid}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -162,6 +198,16 @@ const Customers = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          style={{ backgroundColor: "#F5F5F5" }}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={customersData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
     </div>
   );

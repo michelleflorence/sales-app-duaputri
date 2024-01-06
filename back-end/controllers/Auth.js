@@ -3,7 +3,22 @@ import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import validator from "validator";
+import ActivityLog from "../models/ActivityLogModel.js";
 dotenv.config();
+
+// Fungsi untuk log aktivitas
+const logActivity = async (officerId, action, target) => {
+  try {
+    // Log aktivitas
+    await ActivityLog.create({
+      officerId,
+      action,
+      target,
+    });
+  } catch (error) {
+    console.error("Error logging activity:", error);
+  }
+};
 
 // Fungsi untuk menangani proses login officer
 const login = async (req, res) => {
@@ -40,6 +55,9 @@ const login = async (req, res) => {
     },
     process.env.JWT_SECRET
   );
+
+  // Panggil fungsi logActivity setelah officer berhasil login
+  await logActivity(officer.id, "LOGIN", `Officer: ${officer.roles}`);
 
   res.status(200).json({ token, roles });
 };

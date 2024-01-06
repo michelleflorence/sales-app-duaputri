@@ -26,7 +26,10 @@ const Products = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedImage, setSelectedImage] = useState(null);
-
+  
+  // Menentukan apakah officer memiliki peran cashier
+  const isAdmin = officerData.roles === "admin";
+  
   // Get all data product
   const fetchProductsData = async () => {
     try {
@@ -51,7 +54,7 @@ const Products = () => {
   useEffect(() => {
     fetchProductsData();
   }, []);
-
+  
   // Delete data officer by UUID
   const handleDeleteProduct = async (productUUID) => {
     try {
@@ -126,8 +129,6 @@ const Products = () => {
     fetchOfficerData();
   }, []);
 
-  // Menentukan apakah officer memiliki peran cashier
-  const isAdmin = officerData.roles === "admin";
 
   const handleChangePage = (event, newPage) => {
     // Fungsi ini dipanggil saat pengguna mengubah halaman pada tata letak paginasi.

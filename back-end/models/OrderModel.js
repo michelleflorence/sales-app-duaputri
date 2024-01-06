@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../config/Database.js";
 import Customers from "./CustomerModel.js";
-// import Officers from "./OfficerModel.js";
 
 const Orders = db.define('orders',{
     uuid:{
@@ -19,13 +18,6 @@ const Orders = db.define('orders',{
             notEmpty: true
         }
     },
-    // officerId:{
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     validate:{
-    //         notEmpty: true
-    //     }
-    // },
     orderNumber: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -41,21 +33,18 @@ const Orders = db.define('orders',{
             notEmpty: true
         }
     },
-    status: {
-         type: DataTypes.INTEGER,
-         allowNull: false,
-         validate: {
-            notEmpty: true
-         }
-    }
+    // status: {
+    //      type: DataTypes.INTEGER,
+    //      allowNull: false,
+    //      validate: {
+    //         notEmpty: true
+    //      }
+    // }
 },{
     freezeTableName: true
 });
 
 Customers.hasMany(Orders);
 Orders.belongsTo(Customers, {foreignKey: 'customerId'});
-
-// Officers.hasMany(Orders);
-// Orders.belongsTo(Officers, {foreignKey: 'officerId'});
 
 export default Orders;

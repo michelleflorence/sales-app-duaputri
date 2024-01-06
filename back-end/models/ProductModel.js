@@ -37,7 +37,7 @@ const Products = db.define(
     },
     images: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         notEmpty: true,
         len: [3, 255],

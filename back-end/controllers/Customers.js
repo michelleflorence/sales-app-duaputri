@@ -1,14 +1,37 @@
 import Customers from "../models/CustomerModel.js";
+import ActivityLog from "../models/ActivityLogModel.js";
+import validator from "validator";
+
+// Fungsi untuk log aktivitas
+const logActivity = async (officerId, action, target) => {
+  try {
+    // Log aktivitas
+    await ActivityLog.create({
+      officerId,
+      action,
+      target,
+    });
+  } catch (error) {
+    console.error("Error logging activity:", error);
+  }
+};
 
 // Mendapatkan daftar semua pelanggan
 const getCustomers = async (req, res) => {
   try {
     // Mengambil data pelanggan dari database
     const response = await Customers.findAll({
-      attributes: ["uuid", "id", "name", "email", "phone"],
-      order: [["createdAt", "ASC"]],
+      attributes: ["uuid", "id", "name", "phone"],
+      order: [["createdAt", "DESC"]],
     });
-    res.status(200).json(response); // Mengembalikan data pelanggan dalam format JSON
+
+    // Menghitung jumlah total pelanggan
+    const totalCustomers = await Customers.count();
+
+    res.status(200).json({
+      customers: response,
+      totalCustomers: totalCustomers,
+    }); // Mengembalikan data pelanggan dan jumlah total dalam format JSON
   } catch (error) {
     res.status(500).json({ msg: error.message }); // Menangani kesalahan server dan memberikan pesan error
   }
@@ -19,11 +42,11 @@ const getCustomerById = async (req, res) => {
   try {
     // Mengambil data pelanggan dari database
     const response = await Customers.findOne({
-      attributes: ["uuid", "name", "email", "phone"],
+      attributes: ["uuid", "name", "phone"],
       where: {
         uuid: req.params.id, // Mencocokkan UUID pelanggan dengan nilai parameter ID dari URL
       },
-      order: [["createdAt", "ASC"]],
+      order: [["createdAt", "DESC"]],
     });
     res.status(200).json(response); // Mengembalikan data pelanggan dalam format JSON
   } catch (error) {
@@ -33,15 +56,26 @@ const getCustomerById = async (req, res) => {
 
 // Membuat pelanggan baru
 const createCustomer = async (req, res) => {
-  const { name, email, phone } = req.body; // Desktruksi body dari request
+  const { name, phone } = req.body; // Desktruksi body dari request
 
   // Menambahkan pelanggan baru ke database
   try {
+    // Validasi nomor telepon hanya jika customerPhone terisi
+    if (phone && !validator.isMobilePhone(phone, "id-ID")) {
+      return res.status(400).json({ msg: "Invalid phone number format" });
+    }
+
     await Customers.create({
-      name: name,
-      email: email,
+      name: name || "Guest",
       phone: phone,
     });
+
+    await logActivity(
+      req.officerId,
+      "CREATE CUSTOMER",
+      `Officer: ${req.roles}`
+    );
+
     res.status(201).json({ msg: "Customer has been registered successfuly!" }); // Memberikan respons sukses
   } catch (error) {
     res.status(500).json({ msg: error.message }); // Menangani kesalahan server dan memberikan pesan kesalahan
@@ -62,9 +96,18 @@ const updateCustomer = async (req, res) => {
     if (!customer) return res.status(404).json({ msg: "Customer not found!" });
 
     // Ambil request body dari variabel customer dan update sesuai dengan id di customer
-    const { name, email, phone } = req.body;
+    const { name, phone } = req.body;
+
+    // Validasi nomor telepon hanya jika customerPhone terisi
+    if (phone && !validator.isMobilePhone(phone, "id-ID")) {
+      return res.status(400).json({ msg: "Invalid phone number format" });
+    }
+
     await Customers.update(
-      { name, email, phone },
+      {
+        name: name || "Guest",
+        phone: phone,
+      },
       {
         where: {
           id: customer.id,
@@ -72,7 +115,11 @@ const updateCustomer = async (req, res) => {
       }
     );
 
-    console.log(req.body);
+    await logActivity(
+      req.officerId,
+      "UPDATE CUSTOMER",
+      `Officer: ${req.roles}`
+    );
 
     // Jika berhasil update, maka berikan respons message berhasil update
     res.status(200).json({ msg: "Updated customers successfuly!" });
@@ -100,6 +147,13 @@ const deleteCustomer = async (req, res) => {
         id: customer.id,
       },
     });
+
+    await logActivity(
+      req.officerId,
+      "DELETE CUSTOMER",
+      `Officer: ${req.roles}`
+    );
+
     res.status(200).json({ msg: "Customer Deleted!" });
   } catch (error) {
     // Kembalikan error message

@@ -91,8 +91,8 @@ export const superAdminOnly = async (req, res, next) => {
   }
 };
 
-// Middleware untuk membatasi akses hanya untuk koki
-export const chefOnly = async (req, res, next) => {
+// Middleware untuk membatasi akses hanya untuk admin
+export const adminOnly = async (req, res, next) => {
   // Ekstrak token dari header Authorization
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -116,8 +116,8 @@ export const chefOnly = async (req, res, next) => {
   // Jika officer tidak ditemukan, kembalikan status dan pesan error
   if (!officer) return res.status(404).json({ msg: "Officer not found!" });
 
-  // Jika yang login bukan koki, maka akses akan ditolak
-  if (officer.roles !== "koki")
+  // Jika yang login bukan admin, maka akses akan ditolak
+  if (officer.roles !== "admin")
     return res.status(403).json({ msg: "Access has been denied!" });
 
   // next() memungkinkan request untuk melanjutkan ke middleware/endpoint berikutnya

@@ -1,5 +1,20 @@
 import Officer from "../models/OfficerModel.js";
+import ActivityLog from "../models/ActivityLogModel.js";
 import argon2 from "argon2";
+
+// Fungsi untuk log aktivitas
+const logActivity = async (officerId, action, target) => {
+  try {
+    // Log aktivitas
+    await ActivityLog.create({
+      officerId,
+      action,
+      target,
+    });
+  } catch (error) {
+    console.error("Error logging activity:", error);
+  }
+};
 
 // Mendapatkan daftar semua petugas
 const getOfficers = async (req, res) => {
@@ -49,6 +64,10 @@ const createOfficer = async (req, res) => {
       password: hashPassword,
       roles: roles,
     });
+
+    // Log aktivitas tambah petugas
+    await logActivity(req.officerId, "CREATE OFFICER", `Officer: ${req.roles}`);
+
     res.status(201).json({ msg: "Officer has created successfully!" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
@@ -95,6 +114,9 @@ const updateOfficer = async (req, res) => {
         },
       }
     );
+
+    await logActivity(req.officerId, "UPDATE OFFICER", `Officer: ${req.roles}`);
+
     res.status(200).json({ msg: "Officer Updated!" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
@@ -120,6 +142,8 @@ const deleteOfficer = async (req, res) => {
         id: officer.id,
       },
     });
+
+    await logActivity(req.officerId, "DELETE OFFICER", `Officer: ${req.roles}`);
     res.status(200).json({ msg: "Officer Deleted!" });
   } catch (error) {
     res.status(400).json({ msg: error.message });

@@ -3,15 +3,22 @@ import multer from "multer";
 // Konfigurasi Multer
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
+    // Tentukan folder penyimpanan file, dalam hal ini "uploads/"
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    const filename = file.originalname; // Gunakan nama asli file yang diunggah
-    req.normalizedImagePath = filename.replace(/\\\\/g, "\\"); // Normalisasi path
-    cb(null, filename); // Menentukan nama file gambar
+    // Ambil nama asli file yang diunggah
+    const filename = file.originalname;
+
+    // Normalisasi path file dan simpan dalam properti request
+    req.normalizedImagePath = filename.replace(/\\\\/g, "\\");
+
+    // Tentukan nama file gambar yang akan disimpan
+    cb(null, filename);
   },
 });
 
+// Inisialisasi multer dengan menggunakan konfigurasi storage yang telah dibuat
 const upload = multer({ storage: storage });
 
 export default upload;

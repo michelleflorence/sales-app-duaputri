@@ -14,6 +14,7 @@ import AuthRoute from './routes/AuthRouter.js';
 // import Orders from "./models/OrderModel.js";
 // import OrderDetails from "./models/OrderDetailModel.js";
 // import Invoices from "./models/InvoiceModel.js";
+import ActivityLog from "./models/ActivityLogModel.js";
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ const app = express();
 
 // Generate tabel database
 // (async() => {
-//     await OrderDetails.sync()
+//     await ActivityLog.sync()
 //     .then(() => {
 //         console.log('Model synchronized with database');
 //     })
