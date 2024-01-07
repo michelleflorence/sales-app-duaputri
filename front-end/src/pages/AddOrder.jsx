@@ -176,9 +176,11 @@ const AddOrder = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 flex-1 p-2.5"
                   value={item.qty}
                   // Menangani perubahan pada input dan memperbarui nilai qty pada item
-                  onChange={(e) =>
-                    handleItemChange(index, "qty", e.target.value)
-                  }
+                  onChange={(e) => {
+                    // Pastikan nilai qty tidak kurang dari 0
+                    const newValue = Math.max(0, parseInt(e.target.value, 10));
+                    handleItemChange(index, "qty", newValue);
+                  }}
                   required
                 />
                 {/* Tombol + untuk menambah item baru */}
