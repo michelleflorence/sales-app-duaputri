@@ -26,6 +26,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./pages/PageNotFound";
 import { PrivateRoute } from "./components";
+import ActivityLog from "./logs/ActivityLog";
 
 const App = () => {
   return (
@@ -226,6 +227,21 @@ const App = () => {
             </Master>
           }
         />
+
+        {/* Logs */}
+        <Route
+          path="/activitylog"
+          element={<PrivateRoute redirectPath="/activitylog" />}
+        >
+          <Route
+            index
+            element={
+              <Master>
+                <ActivityLog />
+              </Master>
+            }
+          />
+        </Route>
 
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />

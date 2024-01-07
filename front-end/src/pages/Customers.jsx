@@ -21,7 +21,6 @@ const Customers = () => {
   const [customersData, setCustomersData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   // Get all data customer
   const fetchCustomersData = async () => {

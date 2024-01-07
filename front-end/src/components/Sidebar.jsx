@@ -9,7 +9,6 @@ import axios from "axios"; // Pastikan import axios
 import { useStateContext } from "../contexts/ContextProvider";
 
 const Sidebar = () => {
-  // Get data officer
   const [officerData, setOfficerData] = useState({});
   const { activeMenu, setActiveMenu, screenSize, currentColor } =
     useStateContext();
@@ -24,6 +23,7 @@ const Sidebar = () => {
     }
   };
 
+  // Get data officer
   useEffect(() => {
     const fetchOfficerData = async () => {
       try {
@@ -50,10 +50,9 @@ const Sidebar = () => {
     fetchOfficerData();
   }, []);
 
-  const isSuperAdmin =
-    (officerData.roles === "superadmin")
-  const isAdmin = (officerData.roles === "admin")
-  const isCashier = (officerData.roles === "kasir")
+  const isSuperAdmin = officerData.roles === "superadmin";
+  const isAdmin = officerData.roles === "admin";
+  const isCashier = officerData.roles === "kasir";
 
   const renderLinks = (linksArray) => {
     return linksArray.map((item) => {
@@ -93,7 +92,7 @@ const Sidebar = () => {
                 }
               >
                 {link.icon}
-                <span className="capitalize">{link.name}</span>
+                <span className="capitalize">{link.displayName}</span>
               </NavLink>
             ))}
           </div>
@@ -116,9 +115,7 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
               <img className="w-14" src={logoDuaPutri} alt="logoDuaPutri" />{" "}
-              <span className="dark:text-gray-200">
-                Dua Putri
-              </span>
+              <span className="dark:text-gray-200">Dua Putri</span>
             </Link>
             {/* Cancel Icon */}
             <TooltipComponent content="Menu" position="BottomCenter">

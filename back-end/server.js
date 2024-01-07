@@ -8,6 +8,7 @@ import CustomerRoute from './routes/CustomerRoute.js';
 import OrderRoute from './routes/OrderRoute.js';
 import OrderDetailRoute from './routes/OrderDetailRoute.js';
 import InvoiceRoute from './routes/InvoiceRoute.js';
+import ActivityLogRoute from './routes/ActivityLogRouter.js'
 import AuthRoute from './routes/AuthRouter.js';
 // import db from "./config/Database.js";
 // import Customers from "./models/CustomerModel.js";
@@ -58,6 +59,7 @@ app.use(CustomerRoute)
 app.use(OrderRoute)
 app.use(OrderDetailRoute)
 app.use(InvoiceRoute)
+app.use(ActivityLogRoute)
 app.use(AuthRoute)
 
 // Mengaktifkan server untuk mendengarkan pada port yang didefinisikan di file .env

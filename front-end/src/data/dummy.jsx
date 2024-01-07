@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 import { ImStatsBars2 } from "react-icons/im";
 import { IoMdContacts } from "react-icons/io";
-import { RiContactsLine } from "react-icons/ri";
+import { RiContactsLine, RiHistoryFill } from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import avatar from "./avatar.jpg";
@@ -43,6 +43,7 @@ export const links = [
     title: "Main",
     links: [
       {
+        displayName: "Dashboard",
         name: "dashboard",
         icon: <ImStatsBars2 />,
       },
@@ -53,20 +54,35 @@ export const links = [
     title: "Pages",
     links: [
       {
+        displayName: "Orders",
         name: "orders",
         icon: <AiOutlineShoppingCart />,
       },
       {
+        displayName: "Products",
         name: "products",
         icon: <BsBox2Heart />,
       },
       {
+        displayName: "Officers",
         name: "officers",
         icon: <IoMdContacts />,
       },
       {
+        displayName: "Customers",
         name: "customers",
         icon: <RiContactsLine />,
+      },
+    ],
+  },
+
+  {
+    title: "Logs",
+    links: [
+      {
+        displayName: "Activity Log",
+        name: "activitylog",
+        icon: <RiHistoryFill />,
       },
     ],
   },

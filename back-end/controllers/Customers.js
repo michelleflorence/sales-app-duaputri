@@ -28,10 +28,11 @@ const getCustomers = async (req, res) => {
     // Menghitung jumlah total pelanggan
     const totalCustomers = await Customers.count();
 
+    // Mengembalikan data pelanggan dan jumlah total dalam format JSON
     res.status(200).json({
       customers: response,
       totalCustomers: totalCustomers,
-    }); // Mengembalikan data pelanggan dan jumlah total dalam format JSON
+    });
   } catch (error) {
     res.status(500).json({ msg: error.message }); // Menangani kesalahan server dan memberikan pesan error
   }
