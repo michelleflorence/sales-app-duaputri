@@ -26,7 +26,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./pages/PageNotFound";
 import { PrivateRoute } from "./components";
-import ActivityLog from "./logs/ActivityLog";
+import { ActivityLog } from "./log";
 
 const App = () => {
   return (
