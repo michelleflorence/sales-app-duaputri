@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stacked, LineChart, StackedBarChart } from "../components";
-import { earningData, SparklineAreaData } from "../data/dummy";
+import { LineChart, StackedBarChart } from "../components";
 import axios from "axios";
 import totalEarningData from "../data/dummy";
 
