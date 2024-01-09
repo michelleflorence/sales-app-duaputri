@@ -80,9 +80,12 @@ const AddOrder = () => {
 
       // Menangani respons dari server
       if (response.status === 201) {
-        toast.success(response.data.msg); // Menampilkan notifikasi sukses
-        // Redirect ke halaman detail pesanan setelah penambahan
+        // Menampilkan notifikasi sukses
+        toast.success(response.data.msg);
+
         const newOrderId = response.data.uuid;
+
+        // Redirect ke halaman detail pesanan setelah penambahan
         navigate(`/vieworder/${newOrderId}`);
       } else {
         toast.error("Failed to create order:", response.data.msg); // Menampilkan notifikasi gagal

@@ -11,13 +11,10 @@ import {
   AddOrder,
   AddCustomer,
   AddOfficer,
-  EditCustomer,
-  ViewCustomer,
   ViewOfficer,
   EditOfficer,
   EditProduct,
   ViewProduct,
-  EditOrder,
   ViewOrder,
 } from "./pages";
 import Master from "./layout/Master";
@@ -82,14 +79,6 @@ const App = () => {
             }
           />
         </Route>
-        <Route
-          path="/editorder/:uuid"
-          element={
-            <Master>
-              <EditOrder />
-            </Master>
-          }
-        />
         <Route
           path="/vieworder/:uuid"
           element={
@@ -211,22 +200,6 @@ const App = () => {
             }
           />
         </Route>
-        <Route
-          path="/editcustomer/:uuid"
-          element={
-            <Master>
-              <EditCustomer />
-            </Master>
-          }
-        />
-        <Route
-          path="/viewcustomer/:uuid"
-          element={
-            <Master>
-              <ViewCustomer />
-            </Master>
-          }
-        />
 
         {/* Logs */}
         <Route
