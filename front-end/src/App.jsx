@@ -9,7 +9,6 @@ import {
   Login,
   AddProduct,
   AddOrder,
-  AddCustomer,
   AddOfficer,
   ViewOfficer,
   EditOfficer,
@@ -183,19 +182,6 @@ const App = () => {
             element={
               <Master>
                 <Customers />
-              </Master>
-            }
-          />
-        </Route>
-        <Route
-          path="/addcustomer"
-          element={<PrivateRoute redirectPath="/addcustomer" />}
-        >
-          <Route
-            index
-            element={
-              <Master>
-                <AddCustomer />
               </Master>
             }
           />
