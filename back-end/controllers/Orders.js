@@ -207,112 +207,6 @@ const createOrder = async (req, res) => {
   }
 };
 
-const updateOrder = async (req, res) => {
-  try {
-    if (req.roles === "kasir") {
-      // Mencari pesanan berdasarkan UUID dari parameter URL
-      const order = await Orders.findOne({
-        where: {
-          uuid: req.params.id,
-        },
-      });
-
-      // Jika tidak terdapat data dengan id yang dikirimkan pesanan, maka return message pesanan tidak ditemukan
-      if (!order) return res.status(404).json({ msg: "Order not found!" });
-
-      // Ambil request body dari variabel order
-      const { customerName, customerPhone } = req.body;
-
-      // Dapatkan id pelanggan terkait dengan pesanan
-      let customerId;
-
-      // Cek apakah pelanggan sudah ada
-      const existingCustomer = await Customers.findOne({
-        where: {
-          phone: customerPhone,
-        },
-      });
-
-      // Jika pelanggan sudah ada, gunakan ID pelanggan yang ada
-      if (existingCustomer) {
-        customerId = existingCustomer.id;
-      } else {
-        // Validasi nomor telepon hanya jika customerPhone terisi
-        if (customerPhone && !validator.isMobilePhone(customerPhone, "id-ID")) {
-          return res.status(400).json({ msg: "Invalid phone number format" });
-        }
-
-        // Jika pelanggan belum ada, buat pelanggan baru dan gunakan ID yang baru dibuat
-        const newCustomer = await Customers.create({
-          name: customerName || "Guest",
-          phone: customerPhone,
-        });
-        customerId = newCustomer.id;
-      }
-
-      // Update data di tabel pesanan
-      const [updatedRowsCount, updatedRows] = await Orders.update(
-        { customerId, customerName, customerPhone },
-        {
-          where: {
-            uuid: order.uuid,
-          },
-          returning: true, // Dapatkan data yang telah diperbarui
-        }
-      );
-
-      // Periksa apakah ada baris yang diperbarui
-      if (updatedRowsCount > 0) {
-        res
-          .status(200)
-          .json({ msg: "Order updated successfully!", updatedRows });
-      } else {
-        res
-          .status(500)
-          .json({ msg: "No changes detected or failed to update." });
-      }
-    } else {
-      return res.status(403).json({ msg: "Access has been denied!" });
-    }
-  } catch (error) {
-    // Kembalikan error message
-    res.status(500).json({ msg: error.message });
-  }
-};
-
-const deleteOrder = async (req, res) => {
-  try {
-    // Mencari pesanan berdasarkan UUID dari parameter URL
-    const order = await Orders.findOne({
-      where: {
-        uuid: req.params.id,
-      },
-    });
-
-    // Jika tidak terdapat data dengan id yang dikirimkan order, maka return message order tidak ditemukan
-    if (!order) return res.status(404).json({ msg: "Order not found!" });
-
-    if (req.roles === "kasir") {
-      // Menghapus pesanan berdasarkan UUID
-      await Orders.destroy({
-        where: {
-          uuid: order.uuid,
-        },
-      });
-
-      await logActivity(req.officerId, "DELETE ORDER", `Officer: ${req.roles}`);
-
-      // Menangani respons sukses setelah menghapus pesanan
-      res.status(200).json({ msg: "Delete orders successfuly!" });
-    } else {
-      return res.status(403).json({ msg: "Access has been denied!" });
-    }
-  } catch (error) {
-    // Kembalikan error message
-    res.status(500).json({ msg: error.message });
-  }
-};
-
 const getIncomeChart = async (req, res) => {
   try {
     // Ambil data pesanan dari tabel Orders
@@ -427,7 +321,5 @@ export {
   getPaymentChart,
   getTotalIncome,
   getTotalOrders,
-  deleteOrder,
   createOrder,
-  updateOrder,
 };

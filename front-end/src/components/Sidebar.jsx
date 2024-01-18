@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import Tooltip from "@mui/material/Tooltip";
 import { links } from "../data/dummy";
 import logoDuaPutri from "../data/logo2.png";
 import axios from "axios"; // Pastikan import axios
@@ -118,7 +118,7 @@ const Sidebar = () => {
               <span className="dark:text-gray-200">Dua Putri</span>
             </Link>
             {/* Cancel Icon */}
-            <TooltipComponent content="Menu" position="BottomCenter">
+            <Tooltip title="Menu">
               <button
                 type="button"
                 onClick={() =>
@@ -128,7 +128,7 @@ const Sidebar = () => {
               >
                 <MdOutlineCancel />
               </button>
-            </TooltipComponent>
+            </Tooltip>
           </div>
 
           <div className="mt-10">{renderLinks(links)}</div>

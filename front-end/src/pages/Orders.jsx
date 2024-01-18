@@ -11,7 +11,6 @@ import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useStateContext } from "../contexts/ContextProvider";
-import { FiEdit } from "react-icons/fi";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
@@ -148,17 +147,6 @@ const Orders = () => {
               <FaEye />
             </button>
           </Link>
-          {/* <Link to={`/editorder/${order.uuid}`}>
-            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
-              <FiEdit />
-            </button>
-          </Link> */}
-          <button
-            className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
-            onClick={() => handleDeleteOrder(order.uuid)}
-          >
-            <MdOutlineDeleteOutline />
-          </button>
         </div>
       );
     } else {

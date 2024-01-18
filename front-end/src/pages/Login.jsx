@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateContext } from "../contexts/ContextProvider";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import Tooltip from "@mui/material/Tooltip";
 import { FiSettings } from "react-icons/fi";
 import { ThemeSettings } from "../components";
 import "react-toastify/dist/ReactToastify.css";
@@ -65,7 +65,7 @@ const Login = () => {
           className="fixed right-4 bottom-4 dark:bg-main-dark-bg"
           style={{ zIndex: "1000" }}
         >
-          <TooltipComponent content="Settings" position="Top">
+          <Tooltip title="Settings">
             <button
               type="button"
               className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white"
@@ -74,7 +74,7 @@ const Login = () => {
             >
               <FiSettings />
             </button>
-          </TooltipComponent>
+          </Tooltip>
         </div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 dark:bg-main-dark-bg dark:text-gray-200">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

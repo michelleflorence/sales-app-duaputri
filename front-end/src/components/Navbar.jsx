@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import Tooltip from "@mui/material/Tooltip";
 import avatar from "../data/avatar.jpg";
 import avatar2 from "../data/avatar2.jpg";
 import avatar3 from "../data/avatar3.jpg";
@@ -11,7 +11,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
-  <TooltipComponent content={title} position="BottomCenter">
+  <Tooltip title={title}>
     <button
       type="button"
       onClick={customFunc}
@@ -24,7 +24,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       />
       {icon}
     </button>
-  </TooltipComponent>
+  </Tooltip>
 );
 
 const Navbar = () => {
@@ -111,9 +111,9 @@ const Navbar = () => {
       />
 
       <div className="flex">
-        <TooltipComponent content="Profile" position="BottomCenter">
+        <Tooltip title="Profile">
           <div
-            className="flex items-center cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+            className="flex items-center cursor-pointer p-1 hover:bg-light-gray rounded-lg gap-1"
             onClick={() => handleClick("userProfile")}
           >
             <img
@@ -122,14 +122,14 @@ const Navbar = () => {
               alt="avatar"
             />
             <p>
-              <span className="text-gray-400 text=14">Hi, </span>{" "}
+              <span className="text-gray-400 text-14">Hi,</span>
               <span className="text-gray-400 font-bold ml-1 text-14">
                 {officerData.name}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text=14" />
           </div>
-        </TooltipComponent>
+        </Tooltip>
 
         {isClicked.userProfile && <UserProfile />}
       </div>

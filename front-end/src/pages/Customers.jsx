@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Header } from "../components";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,8 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-import { FiEdit } from "react-icons/fi";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -159,7 +156,6 @@ const Customers = () => {
             <TableRow>
               <TableCell align="center">Customer Name</TableCell>
               <TableCell align="center">Customer Phone</TableCell>
-              {isCashier && <TableCell align="center">Action</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -176,23 +172,6 @@ const Customers = () => {
               >
                 <TableCell align="center">{customer.name}</TableCell>
                 <TableCell align="center">{customer.phone}</TableCell>
-                {isCashier && (
-                  <TableCell align="center">
-                    <div className="flex items-center justify-center gap-2">
-                      <Link to={`/editcustomer/${customer.uuid}`}>
-                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 dark:hover:bg-light-gray text-white bg-blue-700 rounded-full">
-                          <FiEdit />
-                        </button>
-                      </Link>
-                      <button
-                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 dark:hover:bg-light-gray text-white bg-red-700 rounded-full"
-                        onClick={() => handleDeleteCustomer(customer.uuid)}
-                      >
-                        <MdOutlineDeleteOutline />
-                      </button>
-                    </div>
-                  </TableCell>
-                )}
               </TableRow>
             ))}
           </TableBody>

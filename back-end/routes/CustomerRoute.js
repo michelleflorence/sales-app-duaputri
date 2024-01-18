@@ -1,10 +1,8 @@
 import express from "express";
 import {
-    getCustomers,
-    getCustomerById,
-    createCustomer,
-    updateCustomer,
-    deleteCustomer
+  getCustomers,
+  getCustomerById,
+  createCustomer,
 } from "../controllers/Customers.js";
 
 import { verifyOfficer } from "../middleware/AuthOfficer.js";
@@ -17,15 +15,9 @@ const router = express.Router();
 router.get("/customers", verifyOfficer, getCustomers);
 
 // Endpoint untuk mendapatkan data customer berdasarkan ID (GET)
-router.get('/customers/:id', verifyOfficer, getCustomerById)
+router.get("/customers/:id", verifyOfficer, getCustomerById);
 
 // Endpoint untuk membuat customer baru (POST)
-router.post('/customers', verifyOfficer, createCustomer)
-
-// Endpoint untuk memperbarui data customer berdasarkan ID (PATCH)
-router.patch('/customers/:id', verifyOfficer, updateCustomer)
-
-// Endpoint untuk menghapus customer berdasarkan ID (DELETE)
-router.delete('/customers/:id', verifyOfficer, deleteCustomer)
+router.post("/customers", verifyOfficer, createCustomer);
 
 export default router;

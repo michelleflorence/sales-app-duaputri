@@ -8,8 +8,6 @@ import {
   getTotalIncome,
   getTotalOrders,
   createOrder,
-  updateOrder,
-  deleteOrder,
 } from "../controllers/Orders.js";
 
 import { verifyOfficer, cashierOnly } from "../middleware/AuthOfficer.js";
@@ -38,11 +36,5 @@ router.get("/orders/:id", verifyOfficer, getOrderById);
 
 // Endpoint untuk membuat order baru (POST)
 router.post("/orders", verifyOfficer, cashierOnly, createOrder);
-
-// Endpoint untuk memperbarui order berdasarkan ID (PATCH)
-router.patch("/orders/:id", verifyOfficer, cashierOnly, updateOrder);
-
-// Endpoint untuk menghapus order berdasarkan ID (DELETE)
-router.delete("/orders/:id", verifyOfficer, cashierOnly, deleteOrder);
 
 export default router;

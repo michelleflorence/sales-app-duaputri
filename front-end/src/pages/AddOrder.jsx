@@ -114,7 +114,7 @@ const AddOrder = () => {
             </label>
             <input
               value={customerName}
-              onChange={(e) => setCustomerName(e.target.value || "Guest")}
+              onChange={(e) => setCustomerName(e.target.value)}
               type="text"
               name="name"
               id="name"
