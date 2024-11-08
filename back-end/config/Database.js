@@ -9,6 +9,7 @@ const db = new Sequelize(
     host: process.env.DB_HOST, // Host database
     dialect: "postgres",
     port: process.env.DB_PORT || 5432, // Tambahkan port jika diperlukan
+    dialectModule: pg,
     dialectOptions: {
       ssl: {
         require: true, // Pastikan koneksi SSL diaktifkan di produksi
