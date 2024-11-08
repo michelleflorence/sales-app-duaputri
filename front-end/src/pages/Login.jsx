@@ -9,6 +9,7 @@ import { FiSettings } from "react-icons/fi";
 import { ThemeSettings } from "../components";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Login = () => {
   const { themeSettings, setThemeSettings, currentColor, currentMode } =
@@ -22,10 +23,15 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/login"
+          : "http://localhost:5000/login",
+        {
+          email,
+          password,
+        }
+      );
       const { token, roles } = response.data;
 
       // Save token and officer data to local storage if needed
@@ -34,7 +40,9 @@ const Login = () => {
 
       // Fetch additional data after successful login
       const fetchDataResponse = await axios.get(
-        "http://localhost:5000/officers",
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/officers"
+          : "http://localhost:5000/officers",
         {
           headers: {
             Authorization: `Bearer ${token}`,

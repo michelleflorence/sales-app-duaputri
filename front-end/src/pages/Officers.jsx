@@ -16,6 +16,7 @@ import { FaEye } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Officers = () => {
   const { currentColor } = useStateContext();
@@ -33,9 +34,14 @@ const Officers = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/officers", {
-        headers,
-      });
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/officers"
+          : "http://localhost:5000/officers",
+        {
+          headers,
+        }
+      );
 
       setOfficers(response.data);
     } catch (error) {
@@ -73,7 +79,9 @@ const Officers = () => {
         // Kirim permintaan DELETE ke endpoint API untuk menghapus officer
         // Kirim permintaan DELETE ke endpoint API untuk menghapus officer
         const response = await axios.delete(
-          `http://localhost:5000/officers/${officerUUID}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/officers/${officerUUID}`
+            : `http://localhost:5000/officers/${officerUUID}`,
           {
             headers,
           }
@@ -110,9 +118,14 @@ const Officers = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/me"
+            : "http://localhost:5000/me",
+          {
+            headers,
+          }
+        );
 
         // Set data officer ke state
         setLoginOfficerData(response.data);

@@ -6,6 +6,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
+const { VITE_VERCEL_ENV } = import.meta.env;
+
 const AddCustomer = () => {
   const { currentColor } = useStateContext();
   const navigate = useNavigate();
@@ -34,7 +36,9 @@ const AddCustomer = () => {
 
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        "http://localhost:5000/customers",
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/customers"
+          : "http://localhost:5000/customers",
         customerData,
         { headers }
       );

@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import blank from "../data/blank.jpg";
 import { GridProductStatus } from "../data/dummy";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Products = () => {
   const [officerData, setOfficerData] = useState({});
@@ -26,10 +27,10 @@ const Products = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedImage, setSelectedImage] = useState(null);
-  
+
   // Menentukan apakah officer memiliki peran cashier
   const isAdmin = officerData.roles === "admin";
-  
+
   // Get all data product
   const fetchProductsData = async () => {
     try {
@@ -41,9 +42,14 @@ const Products = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/products", {
-        headers,
-      });
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/products"
+          : "http://localhost:5000/products",
+        {
+          headers,
+        }
+      );
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products data:", error);
@@ -54,7 +60,7 @@ const Products = () => {
   useEffect(() => {
     fetchProductsData();
   }, []);
-  
+
   // Delete data officer by UUID
   const handleDeleteProduct = async (productUUID) => {
     try {
@@ -79,7 +85,9 @@ const Products = () => {
 
         // Kirim permintaan DELETE ke endpoint API untuk menghapus product
         const response = await axios.delete(
-          `http://localhost:5000/products/${productUUID}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/products/${productUUID}`
+            : `http://localhost:5000/products/${productUUID}`,
           {
             headers,
           }
@@ -115,9 +123,14 @@ const Products = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/me"
+            : "http://localhost:5000/me",
+          {
+            headers,
+          }
+        );
 
         // Set data officer ke state
         setOfficerData(response.data);
@@ -128,7 +141,6 @@ const Products = () => {
 
     fetchOfficerData();
   }, []);
-
 
   const handleChangePage = (event, newPage) => {
     // Fungsi ini dipanggil saat pengguna mengubah halaman pada tata letak paginasi.
@@ -214,7 +226,11 @@ const Products = () => {
                     {product.images ? (
                       <img
                         className="rounded-md w-20 h-20"
-                        src={`http://localhost:5000/uploads/${product.images}`}
+                        src={
+                          VITE_VERCEL_ENV  === "production"
+                            ? `https://sales-app-server-zeta.vercel.app/uploads/${product.images}`
+                            : `http://localhost:5000/uploads/${product.images}`
+                        }
                         alt="Product Images"
                         style={{
                           margin: "auto",

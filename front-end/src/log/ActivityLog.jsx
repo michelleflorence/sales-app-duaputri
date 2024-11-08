@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const ActivityLog = () => {
   const [officerData, setOfficerData] = useState([]);
@@ -28,9 +29,14 @@ const ActivityLog = () => {
           Authorization: `Bearer ${token}`,
         };
 
-        const response = await axios.get("http://localhost:5000/activitylog", {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/activitylog"
+            : "http://localhost:5000/activitylog",
+          {
+            headers,
+          }
+        );
         setLogData(response.data);
       } catch (error) {
         console.log("Error fetching logs data:", error.response.data);

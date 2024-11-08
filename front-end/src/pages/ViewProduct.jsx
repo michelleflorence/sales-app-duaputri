@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Header } from "../components";
 import product6 from "../data/blank.jpg";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const ViewProduct = () => {
   const [productName, setProductName] = useState("");
@@ -25,7 +26,9 @@ const ViewProduct = () => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          `http://localhost:5000/products/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/products/${uuid}`
+            : `http://localhost:5000/products/${uuid}`,
           { headers }
         );
 
@@ -60,16 +63,15 @@ const ViewProduct = () => {
             }}
             src={
               images && images.length > 0
-                ? `http://localhost:5000/uploads/${images}`
+                ? VITE_VERCEL_ENV  === "production"
+                  ? `https://sales-app-server-zeta.vercel.app/uploads/${images}`
+                  : `http://localhost:5000/uploads/${images}`
                 : product6
             }
             alt=""
           />
           <div className="p-5">
-            <ul
-              role="list"
-              className="divide-y divide-gray-200"
-            >
+            <ul role="list" className="divide-y divide-gray-200">
               <li className="py-3 sm:py-4">
                 <div className="flex items-center">
                   <div className="flex-1 min-w-0 ms-4">

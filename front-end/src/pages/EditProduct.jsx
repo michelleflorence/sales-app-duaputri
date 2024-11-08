@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const EditProduct = () => {
   const { currentColor } = useStateContext();
@@ -30,7 +31,9 @@ const EditProduct = () => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          `http://localhost:5000/products/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `http://localhost:5000/products/${uuid}`
+            : `https://sales-app-server-zeta.vercel.app/products/${uuid}`,
           { headers }
         );
 
@@ -73,7 +76,9 @@ const EditProduct = () => {
 
       // Mengirim permintaan ke server untuk pembaruan produk
       const response = await axios.patch(
-        `http://localhost:5000/products/${uuid}`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/products/${uuid}`
+          : `http://localhost:5000/products/${uuid}`,
         formData,
         { headers }
       );

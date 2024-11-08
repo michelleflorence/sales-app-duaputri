@@ -8,6 +8,8 @@ import { RiContactsLine, RiHistoryFill } from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import axios from "axios";
 
+const { VITE_VERCEL_ENV } = import.meta.env;
+
 export const GridOrderStatus = (props) => (
   <button
     type="button"
@@ -121,9 +123,14 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/customers", {
-        headers,
-      });
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/customers"
+          : "http://localhost:5000/customers",
+        {
+          headers,
+        }
+      );
       setTotalCustomers(response.data.totalCustomers);
     } catch (error) {
       console.log("Error fetching customers data:", error.response.data);
@@ -141,9 +148,14 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/products/total", {
-        headers,
-      });
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/products/total"
+          : "http://localhost:5000/products/total",
+        {
+          headers,
+        }
+      );
       setTotalProducts(response.data);
     } catch (error) {
       console.log("Error fetching product data:", error.response.data);
@@ -160,9 +172,14 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/orders/total", {
-        headers,
-      });
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/orders/total"
+          : "http://localhost:5000/orders/total",
+        {
+          headers,
+        }
+      );
       setTotalOrders(response.data.totalOrders);
     } catch (error) {
       console.log("Error fetching product data:", error.response.data);

@@ -5,6 +5,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const EditCustomer = () => {
   const { currentColor } = useStateContext();
@@ -25,7 +26,9 @@ const EditCustomer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/customers/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `http://localhost:5000/customers/${uuid}`
+            : `https://sales-app-server-zeta.vercel.app/customers/${uuid}`,
           { headers }
         );
 
@@ -50,7 +53,9 @@ const EditCustomer = () => {
 
       // Kirim permintaan PATCH ke endpoint API untuk menyimpan perubahan data pelanggan
       const response = await axios.patch(
-        `http://localhost:5000/customers/${uuid}`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/customers/${uuid}`
+          : `http://localhost:5000/customers/${uuid}`,
         customerData,
         {
           headers,

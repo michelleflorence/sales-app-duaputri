@@ -5,6 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const EditOrder = () => {
   const { uuid } = useParams();
@@ -27,7 +28,9 @@ const EditOrder = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/orders/${uuid}`,
+          VITE_VERCEL_ENV 
+            ? `https://sales-app-server-zeta.vercel.app/orders/${uuid}`
+            : `http://localhost:5000/orders/${uuid}`,
           { headers }
         );
 
@@ -58,7 +61,9 @@ const EditOrder = () => {
 
       // Ambil detail pesanan saat ini
       const orderDetailsResponse = await axios.get(
-        `http://localhost:5000/orders/${uuid}`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/orders/${uuid}`
+          : `http://localhost:5000/orders/${uuid}`,
         { headers: headerToken }
       );
 
@@ -67,7 +72,9 @@ const EditOrder = () => {
 
       // Perbarui detail pesanan
       const updateOrderResponse = await axios.patch(
-        `http://localhost:5000/orders/${uuid}`,
+        VITE_VERCEL_ENV  === "production"
+          ? `http://localhost:5000/orders/${uuid}`
+          : `https://sales-app-server-zeta.vercel.app/orders/${uuid}`,
         {
           customerName: orderData.customerName,
           customerPhone: orderData.customerPhone,
@@ -83,7 +90,9 @@ const EditOrder = () => {
         // Gunakan UUID pelanggan dari detail pesanan untuk memperbarui informasi pelanggan
         const customerUUID = orderDetails.customer.uuid;
         const updateCustomerResponse = await axios.patch(
-          `http://localhost:5000/customers/${customerUUID}`, // Sesuaikan endpoint
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/customers/${customerUUID}`
+            : `http://localhost:5000/customers/${customerUUID}`, // Sesuaikan endpoint
           {
             name: orderData.customerName,
             phone: orderData.customerPhone,

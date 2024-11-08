@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LineChart, StackedBarChart } from "../components";
 import axios from "axios";
 import totalEarningData from "../data/dummy";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Dashboard = () => {
   const [lineChartData, setLineChartData] = useState([]);
@@ -16,7 +17,9 @@ const Dashboard = () => {
         Authorization: `Bearer ${token}`,
       };
       const chartData = await axios.get(
-        `http://localhost:5000/orders/income-chart`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/orders/income-chart`
+          : `http://localhost:5000/orders/income-chart`,
         {
           headers,
         }
@@ -36,7 +39,9 @@ const Dashboard = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://localhost:5000/orders/total-income`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/orders/total-income`
+          : `http://localhost:5000/orders/total-income`,
         {
           headers,
         }

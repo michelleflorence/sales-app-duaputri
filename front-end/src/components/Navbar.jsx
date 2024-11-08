@@ -9,6 +9,7 @@ import avatar4 from "../data/avatar4.jpg";
 import { UserProfile } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <Tooltip title={title}>
@@ -74,9 +75,14 @@ const Navbar = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/me"
+            : "http://localhost:5000/me",
+          {
+            headers,
+          }
+        );
 
         // Set data officer ke state
         setOfficerData(response.data);

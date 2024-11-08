@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const AddOfficer = () => {
   const { currentColor } = useStateContext();
@@ -37,7 +38,9 @@ const AddOfficer = () => {
 
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        "http://localhost:5000/officers",
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/officers"
+          : "http://localhost:5000/officers",
         officerData,
         { headers }
       );

@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import pg from "pg";
 import "dotenv/config";
 import seedSuperAdmin from "../controllers/Superadmin.js";
-const { VERCEL_ENV = "production" } = process.env;
+const { VERCEL_ENV } = process.env;
 
 // Inisialisasi database
 const db =

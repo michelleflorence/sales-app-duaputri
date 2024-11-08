@@ -5,6 +5,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const EditOfficer = () => {
   const { currentColor } = useStateContext();
@@ -28,7 +29,9 @@ const EditOfficer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/officers/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/officers/${uuid}`
+            : `http://localhost:5000/officers/${uuid}`,
           { headers }
         );
 
@@ -62,7 +65,9 @@ const EditOfficer = () => {
 
       // Kirim permintaan PATCH ke endpoint API untuk menyimpan perubahan data pelanggan
       const response = await axios.patch(
-        `http://localhost:5000/officers/${uuid}`,
+        VITE_VERCEL_ENV  === "production"
+          ? `https://sales-app-server-zeta.vercel.app/officers/${uuid}`
+          : `http://localhost:5000/officers/${uuid}`,
         officerData,
         {
           headers,

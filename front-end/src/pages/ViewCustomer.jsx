@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Header } from "../components";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const ViewCustomer = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -16,7 +17,9 @@ const ViewCustomer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/customers/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/customers/${uuid}`
+            : `http://localhost:5000/customers/${uuid}`,
           { headers }
         );
 

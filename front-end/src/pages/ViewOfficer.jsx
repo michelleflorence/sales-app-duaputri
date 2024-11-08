@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Header } from "../components";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const ViewOfficer = () => {
   const [officerData, setOfficerData] = useState([]);
@@ -16,7 +17,9 @@ const ViewOfficer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/officers/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/officers/${uuid}`
+            : `http://localhost:5000/officers/${uuid}`,
           { headers }
         );
 

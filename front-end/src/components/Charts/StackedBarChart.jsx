@@ -4,6 +4,8 @@ import { Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 
+const { VITE_VERCEL_ENV } = import.meta.env;
+
 const StackedBarChart = ({ title, width, height }) => {
   ChartJS.register(Title, Tooltip, Legend);
   const [chartData, setChartData] = useState({
@@ -20,7 +22,9 @@ const StackedBarChart = ({ title, width, height }) => {
         };
 
         const paymentChart = await axios.get(
-          "http://localhost:5000/orders/payment-chart",
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/orders/payment-chart"
+            : "http://localhost:5000/orders/payment-chart",
           { headers }
         );
 

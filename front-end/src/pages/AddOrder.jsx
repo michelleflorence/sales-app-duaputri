@@ -6,6 +6,8 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
+const { VITE_VERCEL_ENV } = import.meta.env;
+
 const AddOrder = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
@@ -40,9 +42,14 @@ const AddOrder = () => {
         };
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
-        const response = await axios.get(`http://localhost:5000/products/`, {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/products/`
+            : `http://localhost:5000/products/`,
+          {
+            headers,
+          }
+        );
 
         setProductList(response.data); // Menyimpan daftar produk ke dalam state
       } catch (error) {
@@ -68,7 +75,9 @@ const AddOrder = () => {
 
       // Mengirim permintaan ke server untuk menambah pesanan
       const response = await axios.post(
-        "http://localhost:5000/orders",
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/orders"
+          : "http://localhost:5000/orders",
         {
           customerName,
           customerPhone,

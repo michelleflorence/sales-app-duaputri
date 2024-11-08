@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const AddProduct = () => {
   const { currentColor } = useStateContext();
@@ -33,7 +34,9 @@ const AddProduct = () => {
       formData.append("images", images);
 
       const response = await axios.post(
-        "http://localhost:5000/products",
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/products"
+          : "http://localhost:5000/products",
         formData,
         {
           headers: {

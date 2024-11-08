@@ -4,6 +4,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import blank from "../data/blank.jpg";
 import axios from "axios";
 
+const { VITE_VERCEL_ENV } = import.meta.env;
+
 const ViewImages = ({ uuid, handleClose }) => {
   const { currentColor } = useStateContext();
   const [images, setImages] = useState(null);
@@ -22,7 +24,9 @@ const ViewImages = ({ uuid, handleClose }) => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          `http://localhost:5000/products/${uuid}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/${uuid}`
+            : `http://localhost:5000/products/${uuid}`,
           { headers }
         );
 
@@ -53,7 +57,9 @@ const ViewImages = ({ uuid, handleClose }) => {
             className="rounded-t-lg w-full h-96 object-cover"
             src={
               images && images.length > 0
-                ? `http://localhost:5000/uploads/${images}`
+                ? VITE_VERCEL_ENV  === "production"
+                  ? `https://sales-app-server-zeta.vercel.app/uploads/${images}`
+                  : `http://localhost:5000/uploads/${images}`
                 : blank
             }
             alt="Product Images"

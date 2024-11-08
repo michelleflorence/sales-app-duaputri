@@ -12,10 +12,11 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import { FaEye } from "react-icons/fa";
-import { MdOutlineDeleteOutline } from "react-icons/md";
+// import { MdOutlineDeleteOutline } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Orders = () => {
   const [officerData, setOfficerData] = useState({});
@@ -34,9 +35,14 @@ const Orders = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/orders", {
-        headers,
-      }); // Replace 'your_api_endpoint' with the actual API endpoint
+      const response = await axios.get(
+        VITE_VERCEL_ENV  === "production"
+          ? "https://sales-app-server-zeta.vercel.app/orders"
+          : "http://localhost:5000/orders",
+        {
+          headers,
+        }
+      ); // Replace 'your_api_endpoint' with the actual API endpoint
       setOrdersData(response.data);
     } catch (error) {
       console.error("Error fetching orders data:", error);
@@ -71,7 +77,9 @@ const Orders = () => {
 
         // Kirim permintaan DELETE ke endpoint API untuk menghapus pesanan
         const response = await axios.delete(
-          `http://localhost:5000/orders/${orderUUID}`,
+          VITE_VERCEL_ENV  === "production"
+            ? `https://sales-app-server-zeta.vercel.app/orders/${orderUUID}`
+            : `http://localhost:5000/orders/${orderUUID}`,
           {
             headers,
           }
@@ -107,9 +115,14 @@ const Orders = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
-          headers,
-        });
+        const response = await axios.get(
+          VITE_VERCEL_ENV  === "production"
+            ? "https://sales-app-server-zeta.vercel.app/me"
+            : "http://localhost:5000/me",
+          {
+            headers,
+          }
+        );
 
         // Set data officer ke state
         setOfficerData(response.data);
