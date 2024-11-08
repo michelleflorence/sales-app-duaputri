@@ -3,11 +3,15 @@ import pg from "pg";
 
 // Inisialisasi database
 const db = new Sequelize("duaputri", "postgres", "password", {
-  host: process.env.DB_HOST || "localhost", // Default to localhost
+  host: "localhost",
   dialect: "postgres",
   dialectModule: pg,
-  port: process.env.DB_PORT || 5432, // Default to port 5432
+  port: 5432,
   timezone: "Etc/GMT+3",
 });
+
+db.authenticate()
+  .then(() => console.log("Connection established successfully."))
+  .catch((err) => console.error("Unable to connect to the database:", err));
 
 export default db;

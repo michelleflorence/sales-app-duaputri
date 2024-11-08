@@ -9,26 +9,11 @@ import OrderDetailRoute from "../routes/OrderDetailRoute.js";
 import InvoiceRoute from "../routes/InvoiceRoute.js";
 import ActivityLogRoute from "../routes/ActivityLogRouter.js";
 import AuthRoute from "../routes/AuthRouter.js";
-import ActivityLog from "../models/ActivityLogModel.js";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-
-// Buat table session dalam database dengan menggunakan fungsi sync
-// store.sync();
-
-// Generate tabel database
-// (async() => {
-//     await ActivityLog.sync()
-//     .then(() => {
-//         console.log('Model synchronized with database');
-//     })
-//     .catch((error) => {
-//         console.log('Error synchronizing model with database:', error);
-//     })
-// })();
 
 // Setup middleware untuk CORS agar aplikasi dapat berkomunikasi dengan frontend yang berjalan pada origin tertentu
 app.use(
