@@ -61,6 +61,9 @@ app.use(OrderDetailRoute)
 app.use(InvoiceRoute)
 app.use(ActivityLogRoute)
 app.use(AuthRoute)
+app.use("/", (req, res) => {
+  res.send("Server is up and running");
+});
 
 // Mengaktifkan server untuk mendengarkan pada port yang didefinisikan di file .env
 app.listen(process.env.APP_PORT, () => {
