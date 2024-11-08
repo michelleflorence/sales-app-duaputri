@@ -52,6 +52,15 @@ Follow these steps to start the backend server and frontend client.
     ```
     The frontend client will be served in development mode.
 
+## Login Information
+Use the following accounts to access the different roles:
+
+| Role       | Email               | Password    |
+|------------|---------------------|-------------|
+| Superadmin | superadmin@gmail.com| michelle123 |
+| Admin      | admin@gmail.com     | linda123    |
+| Cashier    | kasir@gmail.com     | claudia123  |
+
 # Project Features
 - Role-based access for superadmin, admin, and cashier
 - Management of products, customers, orders, and staff with full CRUD capabilities
