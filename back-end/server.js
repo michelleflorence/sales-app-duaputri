@@ -10,12 +10,11 @@ import OrderDetailRoute from './routes/OrderDetailRoute.js';
 import InvoiceRoute from './routes/InvoiceRoute.js';
 import ActivityLogRoute from './routes/ActivityLogRouter.js'
 import AuthRoute from './routes/AuthRouter.js';
-// import db from "./config/Database.js";
+import db from "./config/Database.js";
 // import Customers from "./models/CustomerModel.js";
 // import Orders from "./models/OrderModel.js";
 // import OrderDetails from "./models/OrderDetailModel.js";
 // import Invoices from "./models/InvoiceModel.js";
-import ActivityLog from "./models/ActivityLogModel.js";
 
 dotenv.config();
 
@@ -26,7 +25,7 @@ const app = express();
 
 // Generate tabel database
 // (async() => {
-//     await ActivityLog.sync()
+//     await db.sync()
 //     .then(() => {
 //         console.log('Model synchronized with database');
 //     })
