@@ -31,9 +31,9 @@ const EditProduct = () => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          VITE_VERCEL_ENV  === "production"
-            ? `http://localhost:5000/products/${uuid}`
-            : `https://sales-app-server-zeta.vercel.app/products/${uuid}`,
+          VITE_VERCEL_ENV === "production"
+            ? `https://sales-app-server-zeta.vercel.app/products/${uuid}`
+            : `http://localhost:5000/products/${uuid}`,
           { headers }
         );
 
