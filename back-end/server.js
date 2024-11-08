@@ -36,10 +36,12 @@ const app = express();
 // })();
 
 // Setup middleware untuk CORS agar aplikasi dapat berkomunikasi dengan frontend yang berjalan pada origin tertentu
-app.use(cors({
+app.use(
+  cors({
     credentials: true,
-    origin: 'http://localhost:5173'
-}))
+    origin: ["http://localhost:5173", "https://sales-app-duaputri.vercel.app"],
+  })
+);
 
 // Setup middleware untuk menerima data dalam format JSON
 app.use(express.json())
