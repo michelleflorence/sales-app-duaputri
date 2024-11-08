@@ -6,12 +6,12 @@ const {
   DB_PASSWORD,
   DB_HOST,
   DB_NAME,
-  NODE_ENV = "production",
+  VERCEL_ENV = "production",
 } = process.env;
 
 // Inisialisasi database
 const db =
-  NODE_ENV === "production"
+  VERCEL_ENV === "production"
     ? new Sequelize({
         dialect: "postgres",
         host: DB_HOST,
