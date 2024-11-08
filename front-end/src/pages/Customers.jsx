@@ -30,7 +30,7 @@ const Customers = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/customers", {
+      const response = await axios.get("https://sales-app-server-zeta.vercel.app/customers", {
         headers,
       });
       setCustomersData(response.data.customers);
@@ -68,7 +68,7 @@ const Customers = () => {
 
         // Kirim permintaan DELETE ke endpoint API untuk menghapus pelanggan
         const response = await axios.delete(
-          `http://localhost:5000/customers/${customerUUID}`,
+          `https://sales-app-server-zeta.vercel.app/customers/${customerUUID}`,
           {
             headers,
           }
@@ -104,7 +104,7 @@ const Customers = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
+        const response = await axios.get("https://sales-app-server-zeta.vercel.app/me", {
           headers,
         });
 

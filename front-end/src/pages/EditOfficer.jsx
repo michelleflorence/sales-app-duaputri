@@ -28,7 +28,7 @@ const EditOfficer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/officers/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/officers/${uuid}`,
           { headers }
         );
 
@@ -62,7 +62,7 @@ const EditOfficer = () => {
 
       // Kirim permintaan PATCH ke endpoint API untuk menyimpan perubahan data pelanggan
       const response = await axios.patch(
-        `http://localhost:5000/officers/${uuid}`,
+        `https://sales-app-server-zeta.vercel.app/officers/${uuid}`,
         officerData,
         {
           headers,

@@ -33,7 +33,7 @@ const Officers = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/officers", {
+      const response = await axios.get("https://sales-app-server-zeta.vercel.app/officers", {
         headers,
       });
 
@@ -73,7 +73,7 @@ const Officers = () => {
         // Kirim permintaan DELETE ke endpoint API untuk menghapus officer
         // Kirim permintaan DELETE ke endpoint API untuk menghapus officer
         const response = await axios.delete(
-          `http://localhost:5000/officers/${officerUUID}`,
+          `https://sales-app-server-zeta.vercel.app/officers/${officerUUID}`,
           {
             headers,
           }
@@ -110,7 +110,7 @@ const Officers = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
+        const response = await axios.get("https://sales-app-server-zeta.vercel.app/me", {
           headers,
         });
 

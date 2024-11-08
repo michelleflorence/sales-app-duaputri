@@ -25,7 +25,7 @@ const EditCustomer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/customers/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/customers/${uuid}`,
           { headers }
         );
 
@@ -50,7 +50,7 @@ const EditCustomer = () => {
 
       // Kirim permintaan PATCH ke endpoint API untuk menyimpan perubahan data pelanggan
       const response = await axios.patch(
-        `http://localhost:5000/customers/${uuid}`,
+        `https://sales-app-server-zeta.vercel.app/customers/${uuid}`,
         customerData,
         {
           headers,

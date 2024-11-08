@@ -41,7 +41,7 @@ const Products = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("http://localhost:5000/products", {
+      const response = await axios.get("https://sales-app-server-zeta.vercel.app/products", {
         headers,
       });
       setProducts(response.data);
@@ -79,7 +79,7 @@ const Products = () => {
 
         // Kirim permintaan DELETE ke endpoint API untuk menghapus product
         const response = await axios.delete(
-          `http://localhost:5000/products/${productUUID}`,
+          `https://sales-app-server-zeta.vercel.app/products/${productUUID}`,
           {
             headers,
           }
@@ -115,7 +115,7 @@ const Products = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("http://localhost:5000/me", {
+        const response = await axios.get("https://sales-app-server-zeta.vercel.app/me", {
           headers,
         });
 
@@ -214,7 +214,7 @@ const Products = () => {
                     {product.images ? (
                       <img
                         className="rounded-md w-20 h-20"
-                        src={`http://localhost:5000/uploads/${product.images}`}
+                        src={`https://sales-app-server-zeta.vercel.app/uploads/${product.images}`}
                         alt="Product Images"
                         style={{
                           margin: "auto",

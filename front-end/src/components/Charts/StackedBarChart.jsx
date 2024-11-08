@@ -20,7 +20,7 @@ const StackedBarChart = ({ title, width, height }) => {
         };
 
         const paymentChart = await axios.get(
-          "http://localhost:5000/orders/payment-chart",
+          "https://sales-app-server-zeta.vercel.app/orders/payment-chart",
           { headers }
         );
 

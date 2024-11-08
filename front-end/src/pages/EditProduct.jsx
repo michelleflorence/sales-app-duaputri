@@ -30,7 +30,7 @@ const EditProduct = () => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          `http://localhost:5000/products/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/products/${uuid}`,
           { headers }
         );
 
@@ -73,7 +73,7 @@ const EditProduct = () => {
 
       // Mengirim permintaan ke server untuk pembaruan produk
       const response = await axios.patch(
-        `http://localhost:5000/products/${uuid}`,
+        `https://sales-app-server-zeta.vercel.app/products/${uuid}`,
         formData,
         { headers }
       );

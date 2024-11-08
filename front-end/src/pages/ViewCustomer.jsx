@@ -16,7 +16,7 @@ const ViewCustomer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/customers/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/customers/${uuid}`,
           { headers }
         );
 

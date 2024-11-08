@@ -33,7 +33,7 @@ const AddProduct = () => {
       formData.append("images", images);
 
       const response = await axios.post(
-        "http://localhost:5000/products",
+        "https://sales-app-server-zeta.vercel.app/products",
         formData,
         {
           headers: {

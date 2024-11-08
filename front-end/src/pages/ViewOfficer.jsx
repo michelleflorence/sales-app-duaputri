@@ -16,7 +16,7 @@ const ViewOfficer = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/officers/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/officers/${uuid}`,
           { headers }
         );
 

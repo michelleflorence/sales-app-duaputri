@@ -27,7 +27,7 @@ const EditOrder = () => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/orders/${uuid}`,
+          `https://sales-app-server-zeta.vercel.app/orders/${uuid}`,
           { headers }
         );
 
@@ -58,7 +58,7 @@ const EditOrder = () => {
 
       // Ambil detail pesanan saat ini
       const orderDetailsResponse = await axios.get(
-        `http://localhost:5000/orders/${uuid}`,
+        `https://sales-app-server-zeta.vercel.app/orders/${uuid}`,
         { headers: headerToken }
       );
 
@@ -67,7 +67,7 @@ const EditOrder = () => {
 
       // Perbarui detail pesanan
       const updateOrderResponse = await axios.patch(
-        `http://localhost:5000/orders/${uuid}`,
+        `https://sales-app-server-zeta.vercel.app/orders/${uuid}`,
         {
           customerName: orderData.customerName,
           customerPhone: orderData.customerPhone,
@@ -83,7 +83,7 @@ const EditOrder = () => {
         // Gunakan UUID pelanggan dari detail pesanan untuk memperbarui informasi pelanggan
         const customerUUID = orderDetails.customer.uuid;
         const updateCustomerResponse = await axios.patch(
-          `http://localhost:5000/customers/${customerUUID}`, // Sesuaikan endpoint
+          `https://sales-app-server-zeta.vercel.app/customers/${customerUUID}`, // Sesuaikan endpoint
           {
             name: orderData.customerName,
             phone: orderData.customerPhone,

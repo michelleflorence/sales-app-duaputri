@@ -40,7 +40,7 @@ const AddOrder = () => {
         };
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
-        const response = await axios.get(`http://localhost:5000/products/`, {
+        const response = await axios.get(`https://sales-app-server-zeta.vercel.app/products/`, {
           headers,
         });
 
@@ -68,7 +68,7 @@ const AddOrder = () => {
 
       // Mengirim permintaan ke server untuk menambah pesanan
       const response = await axios.post(
-        "http://localhost:5000/orders",
+        "https://sales-app-server-zeta.vercel.app/orders",
         {
           customerName,
           customerPhone,
