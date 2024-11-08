@@ -1,9 +1,21 @@
 import { Sequelize } from "sequelize";
 
 // Inisialisasi database
-const db = new Sequelize('duaputri', 'postgres', 'password', {
-    host: 'localhost', // Alamat server database
-    dialect: 'postgres' // Jenis database yang digunakan (PostgreSQL dalam kasus ini)
-});
+const db = new Sequelize(
+  process.env.DB_NAME, // Nama database
+  process.env.DB_USER, // Nama pengguna database
+  process.env.DB_PASSWORD, // Kata sandi database
+  {
+    host: process.env.DB_HOST, // Host database
+    dialect: "postgres",
+    port: process.env.DB_PORT || 5432, // Tambahkan port jika diperlukan
+    dialectOptions: {
+      ssl: {
+        require: true, // Pastikan koneksi SSL diaktifkan di produksi
+        rejectUnauthorized: false, // Diperlukan untuk beberapa layanan hosting PostgreSQL
+      },
+    },
+  }
+);
 
 export default db;
