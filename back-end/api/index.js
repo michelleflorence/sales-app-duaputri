@@ -10,21 +10,38 @@ import InvoiceRoute from "../routes/InvoiceRoute.js";
 import ActivityLogRoute from "../routes/ActivityLogRouter.js";
 import AuthRoute from "../routes/AuthRouter.js";
 import ActivityLog from "../models/ActivityLogModel.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
-// Setup middleware untuk CORS agar aplikasi dapat berkomunikasi dengan frontend
+// Buat table session dalam database dengan menggunakan fungsi sync
+// store.sync();
+
+// Generate tabel database
+// (async() => {
+//     await ActivityLog.sync()
+//     .then(() => {
+//         console.log('Model synchronized with database');
+//     })
+//     .catch((error) => {
+//         console.log('Error synchronizing model with database:', error);
+//     })
+// })();
+
+// Setup middleware untuk CORS agar aplikasi dapat berkomunikasi dengan frontend yang berjalan pada origin tertentu
 app.use(
   cors({
     credentials: true,
-    origin: "https://sales-app-duaputri.vercel.app/", // Ubah ini ke origin yang sesuai di Vercel jika perlu
+    origin: "http://localhost:5173",
   })
 );
 
-// Middleware untuk menerima data dalam format JSON
+// Setup middleware untuk menerima data dalam format JSON
 app.use(express.json());
 
-// Middleware untuk menerima URL-encoded data
+// configure the app to use bodyParser()
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -32,10 +49,9 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// Middleware untuk file statis
 app.use("/uploads", express.static("uploads"));
 
-// Middleware untuk route
+// Setup middleware untuk routing Officer, Product, dan Authentication
 app.use(OfficerRoute);
 app.use(ProductRoute);
 app.use(CustomerRoute);
@@ -45,8 +61,9 @@ app.use(InvoiceRoute);
 app.use(ActivityLogRoute);
 app.use(AuthRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello, welcome to the Sales App API!");
+// Mengaktifkan server untuk mendengarkan pada port yang didefinisikan di file .env
+app.listen(process.env.APP_PORT, () => {
+  console.log("Server up and running...");
 });
 
 export default app;
