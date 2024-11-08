@@ -1,12 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/api/officer", "destination": "/api/Officer.js" },
-    { "source": "/api/product", "destination": "/api/Product.js" },
-    { "source": "/api/customer", "destination": "/api/Customer.js" },
-    { "source": "/api/order", "destination": "/api/Order.js" },
-    { "source": "/api/order-detail", "destination": "/api/OrderDetail.js" },
-    { "source": "/api/invoice", "destination": "/api/Invoice.js" },
-    { "source": "/api/activity-log", "destination": "/api/ActivityLog.js" },
-    { "source": "/api/auth", "destination": "/api/Auth.js" }
-  ]
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.js" }]
 }
