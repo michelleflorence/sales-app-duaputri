@@ -34,7 +34,7 @@ const Orders = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("https://sales-app-server-zeta.vercel.app/orders", {
+      const response = await axios.get("http://localhost:5000/orders", {
         headers,
       }); // Replace 'your_api_endpoint' with the actual API endpoint
       setOrdersData(response.data);
@@ -71,7 +71,7 @@ const Orders = () => {
 
         // Kirim permintaan DELETE ke endpoint API untuk menghapus pesanan
         const response = await axios.delete(
-          `https://sales-app-server-zeta.vercel.app/orders/${orderUUID}`,
+          `http://localhost:5000/orders/${orderUUID}`,
           {
             headers,
           }
@@ -107,7 +107,7 @@ const Orders = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("https://sales-app-server-zeta.vercel.app/me", {
+        const response = await axios.get("http://localhost:5000/me", {
           headers,
         });
 

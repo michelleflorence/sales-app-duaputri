@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://sales-app-server-zeta.vercel.app/login", {
+      const response = await axios.post("http://localhost:5000/login", {
         email,
         password,
       });
@@ -34,7 +34,7 @@ const Login = () => {
 
       // Fetch additional data after successful login
       const fetchDataResponse = await axios.get(
-        "https://sales-app-server-zeta.vercel.app/officers",
+        "http://localhost:5000/officers",
         {
           headers: {
             Authorization: `Bearer ${token}`,

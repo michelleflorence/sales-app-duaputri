@@ -34,7 +34,7 @@ const AddCustomer = () => {
 
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        "https://sales-app-server-zeta.vercel.app/customers",
+        "http://localhost:5000/customers",
         customerData,
         { headers }
       );

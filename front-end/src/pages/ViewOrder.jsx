@@ -34,7 +34,7 @@ const ViewOrder = () => {
         };
 
         const response = await axios.get(
-          `https://sales-app-server-zeta.vercel.app/orders/${uuid}`,
+          `http://localhost:5000/orders/${uuid}`,
           { headers }
         );
 
@@ -71,7 +71,7 @@ const ViewOrder = () => {
         };
 
         // Mendapatkan data officer yang sedang login
-        const response = await axios.get("https://sales-app-server-zeta.vercel.app/me", {
+        const response = await axios.get("http://localhost:5000/me", {
           headers,
         });
 

@@ -121,7 +121,7 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("https://sales-app-server-zeta.vercel.app/customers", {
+      const response = await axios.get("http://localhost:5000/customers", {
         headers,
       });
       setTotalCustomers(response.data.totalCustomers);
@@ -141,7 +141,7 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("https://sales-app-server-zeta.vercel.app/products/total", {
+      const response = await axios.get("http://localhost:5000/products/total", {
         headers,
       });
       setTotalProducts(response.data);
@@ -160,7 +160,7 @@ const totalEarningData = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.get("https://sales-app-server-zeta.vercel.app/orders/total", {
+      const response = await axios.get("http://localhost:5000/orders/total", {
         headers,
       });
       setTotalOrders(response.data.totalOrders);

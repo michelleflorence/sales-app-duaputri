@@ -28,7 +28,7 @@ const ActivityLog = () => {
           Authorization: `Bearer ${token}`,
         };
 
-        const response = await axios.get("https://sales-app-server-zeta.vercel.app/activitylog", {
+        const response = await axios.get("http://localhost:5000/activitylog", {
           headers,
         });
         setLogData(response.data);

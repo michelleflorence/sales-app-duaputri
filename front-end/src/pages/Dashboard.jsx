@@ -16,7 +16,7 @@ const Dashboard = () => {
         Authorization: `Bearer ${token}`,
       };
       const chartData = await axios.get(
-        `https://sales-app-server-zeta.vercel.app/orders/income-chart`,
+        `http://localhost:5000/orders/income-chart`,
         {
           headers,
         }
@@ -36,7 +36,7 @@ const Dashboard = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `https://sales-app-server-zeta.vercel.app/orders/total-income`,
+        `http://localhost:5000/orders/total-income`,
         {
           headers,
         }

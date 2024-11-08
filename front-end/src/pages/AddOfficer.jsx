@@ -37,7 +37,7 @@ const AddOfficer = () => {
 
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        "https://sales-app-server-zeta.vercel.app/officers",
+        "http://localhost:5000/officers",
         officerData,
         { headers }
       );

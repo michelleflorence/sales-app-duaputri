@@ -22,7 +22,7 @@ const ViewImages = ({ uuid, handleClose }) => {
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          `https://sales-app-server-zeta.vercel.app/products/${uuid}`,
+          `http://localhost:5000/products/${uuid}`,
           { headers }
         );
 
@@ -53,7 +53,7 @@ const ViewImages = ({ uuid, handleClose }) => {
             className="rounded-t-lg w-full h-96 object-cover"
             src={
               images && images.length > 0
-                ? `https://sales-app-server-zeta.vercel.app/uploads/${images}`
+                ? `http://localhost:5000/uploads/${images}`
                 : blank
             }
             alt="Product Images"
