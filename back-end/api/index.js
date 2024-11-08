@@ -45,4 +45,8 @@ app.use(InvoiceRoute);
 app.use(ActivityLogRoute);
 app.use(AuthRoute);
 
+app.get("/", (req, res) => {
+  res.send("Hello, welcome to the Sales App API!");
+});
+
 export default app;
