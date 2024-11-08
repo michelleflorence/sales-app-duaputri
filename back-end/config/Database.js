@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import pg from "pg";
 
 // Inisialisasi database
 const db = new Sequelize(
