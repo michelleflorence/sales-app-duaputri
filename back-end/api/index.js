@@ -17,7 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173", // Ubah ini ke origin yang sesuai di Vercel jika perlu
+    origin: "https://sales-app-duaputri.vercel.app/", // Ubah ini ke origin yang sesuai di Vercel jika perlu
   })
 );
 
