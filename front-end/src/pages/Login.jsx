@@ -16,7 +16,28 @@ const Login = () => {
     useStateContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  // Validate email
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  // Validate password
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+    } else {
+      setPasswordError("");
+    }
+  };
 
   // Function to handle login request
   const handleLogin = async (e) => {
@@ -24,7 +45,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/login"
           : "http://localhost:5000/login",
         {
@@ -40,7 +61,7 @@ const Login = () => {
 
       // Fetch additional data after successful login
       const fetchDataResponse = await axios.get(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/officers"
           : "http://localhost:5000/officers",
         {
@@ -51,8 +72,8 @@ const Login = () => {
       );
 
       // You can use the fetched data as needed
-      const officerData = fetchDataResponse.data;
-      console.log("Fetched officer data:", officerData);
+      // const officerData = fetchDataResponse.data;
+      // console.log("Fetched officer data:", officerData);
 
       // Navigate or perform other actions after successful login
       navigate("/"); // Example navigation to the dashboard page after login
@@ -115,10 +136,16 @@ const Login = () => {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      validateEmail(e.target.value);
+                    }}
                     required
                     className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-900 sm:text-sm sm:leading-6"
                   />
+                  {emailError && (
+                    <p className="text-sm text-red-600 mt-1">{emailError}</p>
+                  )}
                 </div>
               </div>
 
@@ -137,10 +164,16 @@ const Login = () => {
                     name="password"
                     type="password"
                     autoComplete="current-password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      validatePassword(e.target.value);
+                    }}
                     required
                     className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-900 sm:text-sm sm:leading-6"
                   />
+                  {passwordError && (
+                    <p className="text-sm text-red-600 mt-1">{passwordError}</p>
+                  )}
                 </div>
               </div>
 

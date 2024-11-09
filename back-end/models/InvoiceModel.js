@@ -35,7 +35,7 @@ const Invoices = db.define(
       },
     },
     paymentType: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,

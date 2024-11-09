@@ -9,7 +9,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -18,6 +17,8 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import blank from "../data/blank.jpg";
 import { GridProductStatus } from "../data/dummy";
+import { fetchData, getAuthHeaders } from "../helpers/helpers";
+import CircleLoader from "../components/CircleLoader";
 const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Products = () => {
@@ -27,118 +28,82 @@ const Products = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Menentukan apakah officer memiliki peran cashier
   const isAdmin = officerData.roles === "admin";
 
-  // Get all data product
+  // Ambil semua data product
   const fetchProductsData = async () => {
+    setIsLoading(true);
+    const url =
+      VITE_VERCEL_ENV === "production"
+        ? "https://sales-app-server-zeta.vercel.app/products"
+        : "http://localhost:5000/products";
     try {
-      // Mengambil token dari local storage
-      const token = localStorage.getItem("token");
-
-      // Menyiapkan header Authorization dengan menggunakan token
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      const response = await axios.get(
-        VITE_VERCEL_ENV  === "production"
-          ? "https://sales-app-server-zeta.vercel.app/products"
-          : "http://localhost:5000/products",
-        {
-          headers,
-        }
-      );
-      setProducts(response.data);
+      const data = await fetchData(url, getAuthHeaders());
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching products data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Panggil fetchProductsData dalam useEffect
-  useEffect(() => {
-    fetchProductsData();
-  }, []);
-
-  // Delete data officer by UUID
+  // Delete data officer berdasarkan UUID
   const handleDeleteProduct = async (productUUID) => {
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You will not be able to recover this product!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "Cancel",
-        reverseButtons: true,
-      });
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this product!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
 
-      if (result.isConfirmed) {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
-
-        // Menyiapkan header authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        // Kirim permintaan DELETE ke endpoint API untuk menghapus product
-        const response = await axios.delete(
-          VITE_VERCEL_ENV  === "production"
-            ? `https://sales-app-server-zeta.vercel.app/products/${productUUID}`
-            : `http://localhost:5000/products/${productUUID}`,
-          {
-            headers,
-          }
-        );
-
+    if (result.isConfirmed) {
+      const url =
+        VITE_VERCEL_ENV === "production"
+          ? `https://sales-app-server-zeta.vercel.app/products/${productUUID}`
+          : `http://localhost:5000/products/${productUUID}`;
+      try {
+        const response = await deleteData(url, getAuthHeaders());
         if (response.status === 200) {
-          // Tampilkan SweetAlert untuk informasi penghapusan berhasil
           Swal.fire({
             title: "Deleted!",
             text: `${response.data.msg}`,
             icon: "success",
           });
-
           // Perbarui data produk setelah penghapusan berhasil
           fetchProductsData();
         }
+      } catch (error) {
+        toast.error(error.response?.data?.msg);
       }
+    }
+  };
+  
+  const fetchOfficerData = async () => {
+    setIsLoading(true);
+    // Mendapatkan data officer yang sedang login
+    const url =
+      VITE_VERCEL_ENV === "production"
+        ? "https://sales-app-server-zeta.vercel.app/me"
+        : "http://localhost:5000/me";
+    try {
+      // Set data officer ke state
+      const data = await fetchData(url, getAuthHeaders());
+      setOfficerData(data);
     } catch (error) {
-      toast.error(error.response.data.msg);
+      console.error("Error fetching officer data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Fungsi untuk mengambil data officer yang sedang login
   useEffect(() => {
-    const fetchOfficerData = async () => {
-      try {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
-
-        // Menyiapkan header Authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        // Mendapatkan data officer yang sedang login
-        const response = await axios.get(
-          VITE_VERCEL_ENV  === "production"
-            ? "https://sales-app-server-zeta.vercel.app/me"
-            : "http://localhost:5000/me",
-          {
-            headers,
-          }
-        );
-
-        // Set data officer ke state
-        setOfficerData(response.data);
-      } catch (error) {
-        console.error("Error fetching officer data:", error);
-      }
-    };
-
+    fetchProductsData();
     fetchOfficerData();
   }, []);
 
@@ -154,7 +119,6 @@ const Products = () => {
 
     // Memanggil 'setPage(newPage)' untuk mengatur state 'page' dengan nilai 'newPage',
     // sehingga komponen dapat merender dengan halaman yang sesuai.
-
     setPage(newPage);
   };
 
@@ -192,101 +156,119 @@ const Products = () => {
         </Link>
       )}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-            <TableRow>
-              <TableCell align="center">Product Name</TableCell>
-              <TableCell align="center">Price</TableCell>
-              <TableCell align="center">Images</TableCell>
-              <TableCell align="center">Status</TableCell>
-              {isAdmin && <TableCell align="center">Action</TableCell>}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? products.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : products
-            ).map((product) => (
-              <TableRow
-                key={product.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">{product.productName}</TableCell>
-                <TableCell align="center">
-                  {`Rp. ${Number(product.price).toLocaleString("id-ID")}`}
-                </TableCell>
-                <TableCell align="center">
-                  <div
-                    className="image flex gap-4"
-                    style={{ textAlign: "center" }}
-                  >
-                    {product.images ? (
-                      <img
-                        className="rounded-md w-20 h-20"
-                        src={
-                          VITE_VERCEL_ENV  === "production"
-                            ? `https://sales-app-server-zeta.vercel.app/uploads/${product.images}`
-                            : `http://localhost:5000/uploads/${product.images}`
-                        }
-                        alt="Product Images"
-                        style={{
-                          margin: "auto",
-                          objectFit: "cover",
-                          cursor: "pointer", // Add cursor pointer
-                        }}
-                        onClick={() => handleImageClick(product.uuid)}
-                      />
-                    ) : (
-                      <img
-                        className="rounded-md w-20 h-20"
-                        src={blank}
-                        alt="Product Images"
-                        style={{ margin: "auto", objectFit: "cover" }}
-                        onClick={() => handleImageClick(blank)}
-                      />
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell align="center">
-                  <GridProductStatus
-                    Status={product.status === 0 ? "Available" : "Empty"}
-                    StatusBg={product.status === 0 ? "#478778" : "#D22B2B"}
-                  />
-                </TableCell>
-                {isAdmin && (
-                  <TableCell align="center">
-                    <div className="flex items-center justify-center gap-2">
-                      <Link to={`/editproduct/${product.uuid}`}>
-                        <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
-                          <FiEdit />
-                        </button>
-                      </Link>
-                      <button
-                        className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
-                        onClick={() => handleDeleteProduct(product.uuid)}
-                      >
-                        <MdOutlineDeleteOutline />
-                      </button>
-                    </div>
-                  </TableCell>
+        {isLoading ? (
+          <CircleLoader />
+        ) : (
+          <>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
+                <TableRow>
+                  <TableCell align="center">Product Name</TableCell>
+                  <TableCell align="center">Price</TableCell>
+                  <TableCell align="center">Images</TableCell>
+                  <TableCell align="center">Status</TableCell>
+                  {isAdmin && <TableCell align="center">Action</TableCell>}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products.length > 0 ? (
+                  (rowsPerPage > 0
+                    ? products.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : products
+                  ).map((product) => (
+                    <TableRow
+                      key={product.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">
+                        {product.productName}
+                      </TableCell>
+                      <TableCell align="center">
+                        {`Rp. ${Number(product.price).toLocaleString("id-ID")}`}
+                      </TableCell>
+                      <TableCell align="center">
+                        <div
+                          className="image flex gap-4"
+                          style={{ textAlign: "center" }}
+                        >
+                          {product.images ? (
+                            <img
+                              className="rounded-md w-20 h-20"
+                              src={
+                                VITE_VERCEL_ENV === "production"
+                                  ? `https://sales-app-server-zeta.vercel.app/uploads/${product.images}`
+                                  : `http://localhost:5000/uploads/${product.images}`
+                              }
+                              alt="Product Images"
+                              style={{
+                                margin: "auto",
+                                objectFit: "cover",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleImageClick(product.uuid)}
+                            />
+                          ) : (
+                            <img
+                              className="rounded-md w-20 h-20"
+                              src={blank}
+                              alt="Product Images"
+                              style={{ margin: "auto", objectFit: "cover" }}
+                              onClick={() => handleImageClick(blank)}
+                            />
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell align="center">
+                        <GridProductStatus
+                          Status={product.status === 0 ? "Available" : "Empty"}
+                          StatusBg={
+                            product.status === 0 ? "#478778" : "#D22B2B"
+                          }
+                        />
+                      </TableCell>
+                      {isAdmin && (
+                        <TableCell align="center">
+                          <div className="flex items-center justify-center gap-2">
+                            <Link to={`/editproduct/${product.uuid}`}>
+                              <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
+                                <FiEdit />
+                              </button>
+                            </Link>
+                            <button
+                              className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
+                              onClick={() => handleDeleteProduct(product.uuid)}
+                            >
+                              <MdOutlineDeleteOutline />
+                            </button>
+                          </div>
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      No Data
+                    </TableCell>
+                  </TableRow>
                 )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          style={{ backgroundColor: "#F5F5F5" }}
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={products.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+              </TableBody>
+            </Table>
+            <TablePagination
+              style={{ backgroundColor: "#F5F5F5" }}
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={products.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
       </TableContainer>
       {/* Menampilkan komponen ViewImages jika selectedImage tidak null */}
       {selectedImage && (

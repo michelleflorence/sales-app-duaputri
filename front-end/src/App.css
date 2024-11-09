@@ -44,3 +44,15 @@
 .e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left) {
   border: none;
 }
+
+@media (max-width: 576px) {
+  .MuiTablePagination-root.css-1enz55e-MuiTablePagination-root {
+    width: 210% !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .MuiTablePagination-root.css-1enz55e-MuiTablePagination-root {
+    width: 120% !important;
+  }
+}

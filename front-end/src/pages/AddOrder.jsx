@@ -5,6 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { getAuthHeaders } from "../helpers/helpers";
 
 const { VITE_VERCEL_ENV } = import.meta.env;
 
@@ -33,17 +34,11 @@ const AddOrder = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
-
-        // Menyiapkan header Authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+        const headers = getAuthHeaders();
 
         // Mengirim permintaan ke server untuk mendapatkan data produk
         const response = await axios.get(
-          VITE_VERCEL_ENV  === "production"
+          VITE_VERCEL_ENV === "production"
             ? `https://sales-app-server-zeta.vercel.app/products/`
             : `http://localhost:5000/products/`,
           {
@@ -56,26 +51,19 @@ const AddOrder = () => {
         console.error("Error fetching products:", error.message);
       }
     };
-
     fetchProducts();
-  }, []); // Efek samping hanya dijalankan sekali saat komponen dimuat
+  }, []);
 
   // Fungsi untuk menambah pesanan baru
   const handleAddOrder = async (e) => {
     e.preventDefault();
-
     try {
       // Mengambil token dari local storage
-      const token = localStorage.getItem("token");
-
-      // Menyiapkan header Authorization dengan menggunakan token
-      const headerToken = {
-        Authorization: `Bearer ${token}`,
-      };
+      const headerToken = getAuthHeaders();
 
       // Mengirim permintaan ke server untuk menambah pesanan
       const response = await axios.post(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/orders"
           : "http://localhost:5000/orders",
         {

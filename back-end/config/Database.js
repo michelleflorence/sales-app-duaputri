@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import pg from "pg";
 import "dotenv/config";
-import seedSuperAdmin from "../controllers/Superadmin.js";
 const { VERCEL_ENV } = process.env;
 
 // Inisialisasi database
@@ -21,15 +20,5 @@ const db =
         dialect: "postgres",
         dialectModule: pg,
       });
-
-db.authenticate()
-  .then(() => {
-    console.log("Database connected successfully!");
-    // Run the seed function after successful DB connection
-    seedSuperAdmin();
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
 
 export default db;

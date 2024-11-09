@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { getAuthHeaders } from "../helpers/helpers";
 const { VITE_VERCEL_ENV } = import.meta.env;
 
 const AddOfficer = () => {
@@ -28,17 +29,11 @@ const AddOfficer = () => {
   const handleAddOfficer = async (e) => {
     e.preventDefault(); // Hindari pengiriman formulir secara default
     try {
-      // Mengambil token dari local storage
-      const token = localStorage.getItem("token");
-
-      // Menyiapkan header Authorization dengan menggunakan token
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
+      const headers = getAuthHeaders();
 
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/officers"
           : "http://localhost:5000/officers",
         officerData,
@@ -46,7 +41,7 @@ const AddOfficer = () => {
       );
 
       // Tampilkan pesan sukses atau lakukan aksi lain jika diperlukan
-      console.log(response.data.msg);
+      // console.log(response.data.msg);
 
       // Atur kembali data pelanggan setelah berhasil menambahkan
       setOfficerData({

@@ -50,7 +50,10 @@ const getOrders = async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-    res.status(200).json(order); // Mengirimkan respons JSON dengan daftar pesanan dan informasi pelanggan terkait
+    // Jika tidak ada data order, kirimkan array kosong
+    const responseData = order.length > 0 ? order : [];
+
+    res.status(200).json(responseData); // Mengirimkan respons JSON dengan daftar pesanan dan informasi pelanggan terkait
   } catch (error) {
     res.status(500).json({ msg: error.message }); // Mengirimkan respons kesalahan jika terjadi kesalahan pada server atau basis data
   }

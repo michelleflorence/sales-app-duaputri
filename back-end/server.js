@@ -10,7 +10,8 @@ import OrderDetailRoute from "./routes/OrderDetailRoute.js";
 import InvoiceRoute from "./routes/InvoiceRoute.js";
 import ActivityLogRoute from "./routes/ActivityLogRouter.js";
 import AuthRoute from "./routes/AuthRouter.js";
-// import db from "./config/Database.js";
+import db from "./config/Database.js";
+import seedSuperAdmin from "./controllers/Superadmin.js";
 // import Customers from "./models/CustomerModel.js";
 // import Orders from "./models/OrderModel.js";
 // import OrderDetails from "./models/OrderDetailModel.js";
@@ -22,17 +23,6 @@ const app = express();
 
 // Buat table session dalam database dengan menggunakan fungsi sync
 // store.sync();
-
-// Generate tabel database
-// (async() => {
-//     await db.sync()
-//     .then(() => {
-//         console.log('Model synchronized with database');
-//     })
-//     .catch((error) => {
-//         console.log('Error synchronizing model with database:', error);
-//     })
-// })();
 
 // Setup middleware untuk CORS agar aplikasi dapat berkomunikasi dengan frontend yang berjalan pada origin tertentu
 app.use(
@@ -68,9 +58,27 @@ app.use("/", (req, res) => {
   res.send("Server is up and running");
 });
 
-// Mengaktifkan server untuk mendengarkan pada port yang didefinisikan di file .env
-app.listen(process.env.APP_PORT, () => {
-  console.log("Server up and running...");
-});
+// Database connection and synchronization
+(async () => {
+  try {
+    await db.authenticate();
+    console.log("Database connected successfully!");
+
+    // Synchronize models with database
+    // await db.sync();
+    // console.log("Models synchronized with database");
+
+    // Run the seed function after successful DB sync
+    await seedSuperAdmin();
+    console.log("SuperAdmin seeded successfully");
+
+    // Start the server
+    app.listen(process.env.APP_PORT, () => {
+      console.log("Server up and running...");
+    });
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+  }
+})();
 
 export default app;

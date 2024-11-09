@@ -7,40 +7,30 @@ import avatar2 from "../data/avatar2.jpg";
 import avatar3 from "../data/avatar3.jpg";
 import avatar4 from "../data/avatar4.jpg";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import CircleLoader from "./CircleLoader";
+import { fetchData, getAuthHeaders } from "../helpers/helpers";
 const { VITE_VERCEL_ENV } = import.meta.env;
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const { currentColor, handlePopup } = useStateContext();
   const [officerData, setOfficerData] = useState({});
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   useEffect(() => {
     const fetchOfficerData = async () => {
+      const url =
+        VITE_VERCEL_ENV === "production"
+          ? "https://sales-app-server-zeta.vercel.app/me"
+          : "http://localhost:5000/me";
       try {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
-
-        // Menyiapkan header Authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        // Mendapatkan data officer yang sedang login
-        const response = await axios.get(
-          VITE_VERCEL_ENV  === "production"
-            ? "https://sales-app-server-zeta.vercel.app/me"
-            : "http://localhost:5000/me",
-          {
-            headers,
-          }
-        );
-
-        // Set data officer ke state
-        setOfficerData(response.data);
+        setLoading(true);
+        const data = await fetchData(url, getAuthHeaders());
+        setOfficerData(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching officer data:", error);
+        setLoading(false);
       }
     };
 
@@ -85,24 +75,33 @@ const UserProfile = () => {
           <MdOutlineCancel />
         </button>
       </div>
-      <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
-        <img
-          className="rounded-full h-24 w-24"
-          src={avatarImage}
-          alt="user-profile"
-        />
-        <div>
-          <p className="font-semibold text-xl dark:text-gray-200">
-            {officerData.name}
-          </p>
-          <p className="text-gray-500 text-sm dark:text-gray-400">
-            {officerData.roles}
-          </p>
-          <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
-            {officerData.email}
-          </p>
+
+      {/* Loader: Display when loading */}
+      {loading ? (
+        <div className="flex justify-center items-center mt-6">
+          <CircleLoader />
         </div>
-      </div>
+      ) : (
+        <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
+          <img
+            className="rounded-full h-24 w-24"
+            src={avatarImage}
+            alt="user-profile"
+          />
+          <div>
+            <p className="font-semibold text-xl dark:text-gray-200">
+              {officerData.name}
+            </p>
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {officerData.roles}
+            </p>
+            <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
+              {officerData.email}
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="mt-5">
         <Button
           color="white"

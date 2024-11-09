@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { getAuthHeaders } from "../helpers/helpers";
 
 const { VITE_VERCEL_ENV } = import.meta.env;
 
@@ -26,23 +27,15 @@ const AddCustomer = () => {
   const handleAddCustomer = async (e) => {
     e.preventDefault(); // Hindari pengiriman formulir secara default
     try {
-      // Mengambil token dari local storage
-      const token = localStorage.getItem("token");
-
-      // Menyiapkan header Authorization dengan menggunakan token
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
+      const headers = getAuthHeaders();
       // Panggil API untuk menambah pelanggan
       const response = await axios.post(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/customers"
           : "http://localhost:5000/customers",
         customerData,
         { headers }
       );
-
       if (response.status === 201) {
         // Tampilkan pesan sukses atau lakukan aksi lain jika diperlukan
         toast.success(response.data.msg);

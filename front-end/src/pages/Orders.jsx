@@ -9,13 +9,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import { FaEye } from "react-icons/fa";
 // import { MdOutlineDeleteOutline } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+// import { toast } from "react-toastify";
+// import Swal from "sweetalert2";
+import CircleLoader from "../components/CircleLoader";
+import { fetchData, getAuthHeaders } from "../helpers/helpers";
 const { VITE_VERCEL_ENV } = import.meta.env;
 
 const Orders = () => {
@@ -24,115 +25,95 @@ const Orders = () => {
   const [ordersData, setOrdersData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchOrdersData = async () => {
+    setIsLoading(true);
+    const url =
+      VITE_VERCEL_ENV === "production"
+        ? "https://sales-app-server-zeta.vercel.app/orders"
+        : "http://localhost:5000/orders";
+
     try {
-      // Mengambil token dari local storage
-      const token = localStorage.getItem("token");
-
-      // Menyiapkan header Authorization dengan menggunakan token
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      const response = await axios.get(
-        VITE_VERCEL_ENV  === "production"
-          ? "https://sales-app-server-zeta.vercel.app/orders"
-          : "http://localhost:5000/orders",
-        {
-          headers,
-        }
-      ); // Replace 'your_api_endpoint' with the actual API endpoint
-      setOrdersData(response.data);
+      const data = await fetchData(url, getAuthHeaders());
+      setOrdersData(data);
     } catch (error) {
       console.error("Error fetching orders data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchOfficerData = async () => {
+    setIsLoading(true);
+    const url =
+      VITE_VERCEL_ENV === "production"
+        ? "https://sales-app-server-zeta.vercel.app/me"
+        : "http://localhost:5000/me";
+    try {
+      // Set data officer ke state
+      const data = await fetchData(url, getAuthHeaders());
+      setOfficerData(data);
+    } catch (error) {
+      console.error("Error fetching officer data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchOrdersData();
+    fetchOfficerData();
   }, []);
 
   // Fungsi untuk menghandle penghapusan pesanan
-  const handleDeleteOrder = async (orderUUID) => {
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You will not be able to recover this data!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "Cancel",
-        reverseButtons: true,
-      });
+  // const handleDeleteOrder = async (orderUUID) => {
+  //   try {
+  //     const result = await Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You will not be able to recover this data!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonText: "Yes, delete it!",
+  //       cancelButtonText: "Cancel",
+  //       reverseButtons: true,
+  //     });
 
-      if (result.isConfirmed) {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
+  //     if (result.isConfirmed) {
+  //       // Mengambil token dari local storage
+  //       const token = localStorage.getItem("token");
 
-        // Menyiapkan header Authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+  //       // Menyiapkan header Authorization dengan menggunakan token
+  //       const headers = {
+  //         Authorization: `Bearer ${token}`,
+  //       };
 
-        // Kirim permintaan DELETE ke endpoint API untuk menghapus pesanan
-        const response = await axios.delete(
-          VITE_VERCEL_ENV  === "production"
-            ? `https://sales-app-server-zeta.vercel.app/orders/${orderUUID}`
-            : `http://localhost:5000/orders/${orderUUID}`,
-          {
-            headers,
-          }
-        );
+  //       // Kirim permintaan DELETE ke endpoint API untuk menghapus pesanan
+  //       const response = await axios.delete(
+  //         VITE_VERCEL_ENV === "production"
+  //           ? `https://sales-app-server-zeta.vercel.app/orders/${orderUUID}`
+  //           : `http://localhost:5000/orders/${orderUUID}`,
+  //         {
+  //           headers,
+  //         }
+  //       );
 
-        if (response.status === 200) {
-          // Tampilkan SweetAlert untuk informasi penghapusan berhasil
-          Swal.fire({
-            title: "Deleted!",
-            text: `${response.data.msg}`,
-            icon: "success",
-          });
+  //       if (response.status === 200) {
+  //         // Tampilkan SweetAlert untuk informasi penghapusan berhasil
+  //         Swal.fire({
+  //           title: "Deleted!",
+  //           text: `${response.data.msg}`,
+  //           icon: "success",
+  //         });
 
-          // Perbarui data pesanan setelah penghapusan berhasil
-          fetchOrdersData();
-        }
-      }
-    } catch (error) {
-      toast.error(error.response.data.msg);
-    }
-  };
-
-  // Fungsi untuk mengambil data officer yang sedang login
-  useEffect(() => {
-    const fetchOfficerData = async () => {
-      try {
-        // Mengambil token dari local storage
-        const token = localStorage.getItem("token");
-
-        // Menyiapkan header Authorization dengan menggunakan token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        // Mendapatkan data officer yang sedang login
-        const response = await axios.get(
-          VITE_VERCEL_ENV  === "production"
-            ? "https://sales-app-server-zeta.vercel.app/me"
-            : "http://localhost:5000/me",
-          {
-            headers,
-          }
-        );
-
-        // Set data officer ke state
-        setOfficerData(response.data);
-      } catch (error) {
-        console.error("Error fetching officer data:", error);
-      }
-    };
-
-    fetchOfficerData();
-  }, []);
+  //         // Perbarui data pesanan setelah penghapusan berhasil
+  //         fetchOrdersData();
+  //       }
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response.data.msg);
+  //   }
+  // };
 
   // Menentukan apakah officer memiliki peran superadmin
   const isSuperAdmin = officerData.roles === "superadmin";
@@ -209,47 +190,58 @@ const Orders = () => {
         </Link>
       )}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 800 }} aria-label="simple table">
-          <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-            <TableRow>
-              <TableCell align="center">Order Number</TableCell>
-              <TableCell align="center">Customer Name</TableCell>
-              <TableCell align="center">Total Price</TableCell>
-              <TableCell align="center">Payment Type</TableCell>
-              <TableCell align="center">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? // Jika jumlah baris per halaman lebih dari 0, artinya paginasi diaktifkan.
-                // Tampilkan sejumlah baris sesuai dengan nilai 'rowsPerPage' dan halaman aktif.
-                ordersData.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : // Jika jumlah baris per halaman 0 atau kurang, artinya paginasi dinonaktifkan.
-                // Dalam hal ini, tampilkan semua pesanan yang ada.
-                ordersData
-            ).map((order) => (
-              <TableRow
-                key={order.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">{order.orderNumber}</TableCell>
-                <TableCell align="center">{order.customer.name}</TableCell>
-                <TableCell align="center">
-                  {`Rp. ${Number(order.totalPrice).toLocaleString("id-ID")}`}
-                </TableCell>
-                <TableCell align="center">
-                  {order.invoice.paymentType}
-                </TableCell>
-                <TableCell align="center">
-                  {renderActionButtons(order)}
-                </TableCell>
+        {isLoading ? (
+          <CircleLoader /> // Menampilkan Loader saat data sedang dimuat
+        ) : (
+          <Table sx={{ minWidth: 800 }} aria-label="simple table">
+            <TableHead style={{ backgroundColor: "#F5F5F5" }}>
+              <TableRow>
+                <TableCell align="center">Order Number</TableCell>
+                <TableCell align="center">Customer Name</TableCell>
+                <TableCell align="center">Total Price</TableCell>
+                <TableCell align="center">Payment Type</TableCell>
+                <TableCell align="center">Action</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {/* Check apakah order datanya ada atau tidak */}
+              {ordersData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    No Data
+                  </TableCell>
+                </TableRow>
+              ) : (
+                (rowsPerPage > 0
+                  ? ordersData.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : ordersData
+                ).map((order) => (
+                  <TableRow
+                    key={order.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center">{order.orderNumber}</TableCell>
+                    <TableCell align="center">{order.customer.name}</TableCell>
+                    <TableCell align="center">
+                      {`Rp. ${Number(order.totalPrice).toLocaleString(
+                        "id-ID"
+                      )}`}
+                    </TableCell>
+                    <TableCell align="center">
+                      {order.invoice.paymentType}
+                    </TableCell>
+                    <TableCell align="center">
+                      {renderActionButtons(order)}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        )}
         <TablePagination
           style={{ backgroundColor: "#F5F5F5" }}
           rowsPerPageOptions={[5, 10, 25]}
