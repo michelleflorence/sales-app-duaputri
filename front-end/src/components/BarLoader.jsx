@@ -6,7 +6,7 @@ const BarLoader = () => {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "80%",
         position: "absolute",
         top: "50%",
         left: "50%",
