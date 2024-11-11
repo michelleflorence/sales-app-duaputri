@@ -176,83 +176,87 @@ const Orders = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Orders" />
-      {isCashier && (
-        <Link to="/addorder">
-          <button
-            type="button"
-            className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-            style={{ backgroundColor: currentColor }}
-          >
-            Add Orders
-          </button>
-        </Link>
-      )}
-      <TableContainer component={Paper}>
-        {isLoading ? (
-          <CircleLoader /> // Menampilkan Loader saat data sedang dimuat
-        ) : (
-          <Table sx={{ minWidth: 800 }} aria-label="simple table">
-            <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-              <TableRow>
-                <TableCell align="center">Order Number</TableCell>
-                <TableCell align="center">Customer Name</TableCell>
-                <TableCell align="center">Total Price</TableCell>
-                <TableCell align="center">Payment Type</TableCell>
-                <TableCell align="center">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/* Check apakah order datanya ada atau tidak */}
-              {ordersData.length === 0 ? (
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Orders" />
+        {isCashier && (
+          <Link to="/addorder">
+            <button
+              type="button"
+              className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              style={{ backgroundColor: currentColor }}
+            >
+              Add Orders
+            </button>
+          </Link>
+        )}
+        <TableContainer component={Paper}>
+          {isLoading ? (
+            <CircleLoader /> // Menampilkan Loader saat data sedang dimuat
+          ) : (
+            <Table sx={{ minWidth: 800 }} aria-label="simple table">
+              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
                 <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    No Data
-                  </TableCell>
+                  <TableCell align="center">Order Number</TableCell>
+                  <TableCell align="center">Customer Name</TableCell>
+                  <TableCell align="center">Total Price</TableCell>
+                  <TableCell align="center">Payment Type</TableCell>
+                  <TableCell align="center">Action</TableCell>
                 </TableRow>
-              ) : (
-                (rowsPerPage > 0
-                  ? ordersData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : ordersData
-                ).map((order) => (
-                  <TableRow
-                    key={order.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center">{order.orderNumber}</TableCell>
-                    <TableCell align="center">{order.customer.name}</TableCell>
-                    <TableCell align="center">
-                      {`Rp. ${Number(order.totalPrice).toLocaleString(
-                        "id-ID"
-                      )}`}
-                    </TableCell>
-                    <TableCell align="center">
-                      {order.invoice.paymentType}
-                    </TableCell>
-                    <TableCell align="center">
-                      {renderActionButtons(order)}
+              </TableHead>
+              <TableBody>
+                {/* Check apakah order datanya ada atau tidak */}
+                {ordersData.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      No Data
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        )}
-        <TablePagination
-          style={{ backgroundColor: "#F5F5F5" }}
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={ordersData.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+                ) : (
+                  (rowsPerPage > 0
+                    ? ordersData.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : ordersData
+                  ).map((order) => (
+                    <TableRow
+                      key={order.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">{order.orderNumber}</TableCell>
+                      <TableCell align="center">
+                        {order.customer.name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {`Rp. ${Number(order.totalPrice).toLocaleString(
+                          "id-ID"
+                        )}`}
+                      </TableCell>
+                      <TableCell align="center">
+                        {order.invoice.paymentType}
+                      </TableCell>
+                      <TableCell align="center">
+                        {renderActionButtons(order)}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
+          <TablePagination
+            style={{ backgroundColor: "#F5F5F5" }}
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={ordersData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      </div>
     </div>
   );
 };

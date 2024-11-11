@@ -81,133 +81,135 @@ const ViewOrder = () => {
   const isCashier = officerData.roles === "kasir";
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="View Order" />
-      {/* Card */}
-      {isLoading ? (
-        <CircleLoader />
-      ) : (
-        <div className="flex items-center justify-center h-full">
-          <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
-            <div className="flow-root">
-              <ul role="list" className="divide-y divide-gray-200">
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Customer Name
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        {orderData.customerName}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center ">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Customer Phone
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        {orderData.customerPhone}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Order Number
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        {orderData.orderNumber}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Order Items
-                      </p>
-                      <div className="text-base text-gray-600 truncate">
-                        {orderData.order_details?.map(
-                          (order_details, index) => (
-                            <div key={index}>
-                              {order_details.product?.productName} (
-                              {order_details.quantity})
-                              {index < orderData.order_details.length - 1 &&
-                                ","}{" "}
-                            </div>
-                          )
-                        )}
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="View Order" />
+        {/* Card */}
+        {isLoading ? (
+          <CircleLoader />
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+              <div className="flow-root">
+                <ul role="list" className="divide-y divide-gray-200">
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Customer Name
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          {orderData.customerName}
+                        </p>
                       </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
 
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Total Price
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        {`Rp. ${Number(orderData.totalPrice).toLocaleString(
-                          "id-ID"
-                        )}`}
-                      </p>
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center ">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Customer Phone
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          {orderData.customerPhone}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
 
-                <li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ms-4">
-                      <p className="text-base font-bold text-gray-900 truncate">
-                        Invoice Details
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        Invoice Date: {orderData.invoice.invoiceDate}
-                      </p>
-                      <p className="text-base text-gray-600 truncate">
-                        Payment Type: {orderData.invoice.paymentType}
-                      </p>
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Order Number
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          {orderData.orderNumber}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
+                  </li>
 
-              {/* Button */}
-              <Link to="/orders">
-                <button
-                  type="button"
-                  className="mt-4 ml-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-                >
-                  Back
-                </button>
-              </Link>
-              {isCashier && (
-                <Link to="/addorder">
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Order Items
+                        </p>
+                        <div className="text-base text-gray-600 truncate">
+                          {orderData.order_details?.map(
+                            (order_details, index) => (
+                              <div key={index}>
+                                {order_details.product?.productName} (
+                                {order_details.quantity})
+                                {index < orderData.order_details.length - 1 &&
+                                  ","}{" "}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Total Price
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          {`Rp. ${Number(orderData.totalPrice).toLocaleString(
+                            "id-ID"
+                          )}`}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li className="py-3 sm:py-4">
+                    <div className="flex items-center">
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-base font-bold text-gray-900 truncate">
+                          Invoice Details
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          Invoice Date: {orderData.invoice.invoiceDate}
+                        </p>
+                        <p className="text-base text-gray-600 truncate">
+                          Payment Type: {orderData.invoice.paymentType}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                {/* Button */}
+                <Link to="/orders">
                   <button
-                    style={{ backgroundColor: currentColor }}
                     type="button"
-                    className="mt-4 ml-4 hover:drop-shadow-md hover:bg-teal-800 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+                    className="mt-4 ml-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
                   >
-                    Add New Order
+                    Back
                   </button>
                 </Link>
-              )}
+                {isCashier && (
+                  <Link to="/addorder">
+                    <button
+                      style={{ backgroundColor: currentColor }}
+                      type="button"
+                      className="mt-4 ml-4 hover:drop-shadow-md hover:bg-teal-800 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+                    >
+                      Add New Order
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

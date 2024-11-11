@@ -137,63 +137,65 @@ const EditOrder = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Edit Order" />
-      <form method="POST" onSubmit={handleUpdateOrder}>
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="customerName"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Customer Name
-            </label>
-            <input
-              value={orderData.customerName}
-              onChange={handleChange}
-              type="text"
-              name="customerName"
-              id="customerName"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              placeholder="Type customer name"
-            />
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Edit Order" />
+        <form method="POST" onSubmit={handleUpdateOrder}>
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="customerName"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Customer Name
+              </label>
+              <input
+                value={orderData.customerName}
+                onChange={handleChange}
+                type="text"
+                name="customerName"
+                id="customerName"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Type customer name"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="customerPhone"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Customer Phone
+              </label>
+              <input
+                value={orderData.customerPhone}
+                onChange={handleChange}
+                type="text"
+                name="customerPhone"
+                id="customerPhone"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Type customer phone"
+              />
+            </div>
           </div>
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="customerPhone"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Customer Phone
-            </label>
-            <input
-              value={orderData.customerPhone}
-              onChange={handleChange}
-              type="text"
-              name="customerPhone"
-              id="customerPhone"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              placeholder="Type customer phone"
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="mt-4 hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-            style={{ backgroundColor: currentColor }}
-          >
-            Edit Order
-          </button>
-          <Link to="/orders">
+          <div className="flex gap-2">
             <button
-              type="button"
-              className="mt-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              type="submit"
+              className="mt-4 hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              style={{ backgroundColor: currentColor }}
             >
-              Back
+              Edit Order
             </button>
-          </Link>
-        </div>
-      </form>
+            <Link to="/orders">
+              <button
+                type="button"
+                className="mt-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              >
+                Back
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -76,7 +76,7 @@ const EditProduct = () => {
 
       // Mengirim permintaan ke server untuk pembaruan produk
       const response = await axios.patch(
-        VITE_VERCEL_ENV  === "production"
+        VITE_VERCEL_ENV === "production"
           ? `https://sales-app-server-zeta.vercel.app/products/${uuid}`
           : `http://localhost:5000/products/${uuid}`,
         formData,
@@ -119,65 +119,66 @@ const EditProduct = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Edit Product" />
-      <form method="POST" onSubmit={handleUpdateProduct}>
-        <ToastContainer />
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Product Name
-            </label>
-            <input
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              type="text"
-              name="name"
-              id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              placeholder="Type product name"
-              required
-            />
-          </div>
-          <div className="w-full">
-            <label
-              htmlFor="price"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Price
-            </label>
-            <input
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              type="number"
-              name="price"
-              id="price"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              placeholder="2000.00"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="status"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Status
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              id="status"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-            >
-              <option value="0">Available</option>
-              <option value="1">Empty</option>
-            </select>
-          </div>
-          {/* <div>
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Edit Product" />
+        <form method="POST" onSubmit={handleUpdateProduct}>
+          <ToastContainer />
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="name"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Product Name
+              </label>
+              <input
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                type="text"
+                name="name"
+                id="name"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Type product name"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="price"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Price
+              </label>
+              <input
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                type="number"
+                name="price"
+                id="price"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="2000.00"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="status"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Status
+              </label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                id="status"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+              >
+                <option value="0">Available</option>
+                <option value="1">Empty</option>
+              </select>
+            </div>
+            {/* <div>
             <label
               htmlFor="images"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -240,25 +241,26 @@ const EditProduct = () => {
               </label>
             </div>
           </div> */}
-        </div>
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="mt-4 hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-            style={{ backgroundColor: currentColor }}
-          >
-            Edit Product
-          </button>
-          <Link to="/products">
+          </div>
+          <div className="flex gap-2">
             <button
-              type="button"
-              className="mt-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              type="submit"
+              className="mt-4 hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              style={{ backgroundColor: currentColor }}
             >
-              Back
+              Edit Product
             </button>
-          </Link>
-        </div>
-      </form>
+            <Link to="/products">
+              <button
+                type="button"
+                className="mt-4 hover:drop-shadow-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              >
+                Back
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -67,59 +67,63 @@ const Customers = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Customers" />
-      <TableContainer component={Paper}>
-        {isLoading ? (
-          <CircleLoader />
-        ) : (
-          <>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-                <TableRow>
-                  <TableCell align="center">Customer Name</TableCell>
-                  <TableCell align="center">Customer Phone</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {customersData.length > 0 ? (
-                  (rowsPerPage > 0
-                    ? customersData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : customersData
-                  ).map((customer) => (
-                    <TableRow
-                      key={customer.uuid}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center">{customer.name}</TableCell>
-                      <TableCell align="center">{customer.phone}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Customers" />
+        <TableContainer component={Paper}>
+          {isLoading ? (
+            <CircleLoader />
+          ) : (
+            <>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#F5F5F5" }}>
                   <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      No Data
-                    </TableCell>
+                    <TableCell align="center">Customer Name</TableCell>
+                    <TableCell align="center">Customer Phone</TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <TablePagination
-              style={{ backgroundColor: "#F5F5F5" }}
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={customersData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </>
-        )}
-      </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {customersData.length > 0 ? (
+                    (rowsPerPage > 0
+                      ? customersData.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : customersData
+                    ).map((customer) => (
+                      <TableRow
+                        key={customer.uuid}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{customer.name}</TableCell>
+                        <TableCell align="center">{customer.phone}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} align="center">
+                        No Data
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+              <TablePagination
+                style={{ backgroundColor: "#F5F5F5" }}
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={customersData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
+        </TableContainer>
+      </div>
     </div>
   );
 };

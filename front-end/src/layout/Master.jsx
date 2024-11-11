@@ -55,7 +55,7 @@ const Master = ({ children }) => {
             {/* Only show theme settings if it is currently true */}
             {themeSettings && <ThemeSettings />}
           </div>
-          <main className="pt-16 pb-4">{children}</main>
+          <main className="pb-4">{children}</main>
           {/* Footer */}
           <Footer />
         </div>

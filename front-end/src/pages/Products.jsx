@@ -142,138 +142,151 @@ const Products = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Products" />
-      {isAdmin && (
-        <Link to="/addproduct">
-          <button
-            type="button"
-            className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-            style={{ backgroundColor: currentColor }}
-          >
-            Add Product
-          </button>
-        </Link>
-      )}
-      <TableContainer component={Paper}>
-        {isLoading ? (
-          <CircleLoader />
-        ) : (
-          <>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-                <TableRow>
-                  <TableCell align="center">Product Name</TableCell>
-                  <TableCell align="center">Price</TableCell>
-                  <TableCell align="center">Images</TableCell>
-                  <TableCell align="center">Status</TableCell>
-                  {isAdmin && <TableCell align="center">Action</TableCell>}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products.length > 0 ? (
-                  (rowsPerPage > 0
-                    ? products.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : products
-                  ).map((product) => (
-                    <TableRow
-                      key={product.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center">
-                        {product.productName}
-                      </TableCell>
-                      <TableCell align="center">
-                        {`Rp. ${Number(product.price).toLocaleString("id-ID")}`}
-                      </TableCell>
-                      <TableCell align="center">
-                        <div
-                          className="image flex gap-4"
-                          style={{ textAlign: "center" }}
-                        >
-                          {product.images ? (
-                            <img
-                              className="rounded-md w-20 h-20"
-                              src={
-                                VITE_VERCEL_ENV === "production"
-                                  ? `https://sales-app-server-zeta.vercel.app/uploads/${product.images}`
-                                  : `http://localhost:5000/uploads/${product.images}`
-                              }
-                              alt="Product Images"
-                              style={{
-                                margin: "auto",
-                                objectFit: "cover",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => handleImageClick(product.uuid)}
-                            />
-                          ) : (
-                            <img
-                              className="rounded-md w-20 h-20"
-                              src={blank}
-                              alt="Product Images"
-                              style={{ margin: "auto", objectFit: "cover" }}
-                              onClick={() => handleImageClick(blank)}
-                            />
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell align="center">
-                        <GridProductStatus
-                          Status={product.status === 0 ? "Available" : "Empty"}
-                          StatusBg={
-                            product.status === 0 ? "#478778" : "#D22B2B"
-                          }
-                        />
-                      </TableCell>
-                      {isAdmin && (
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Products" />
+        {isAdmin && (
+          <Link to="/addproduct">
+            <button
+              type="button"
+              className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+              style={{ backgroundColor: currentColor }}
+            >
+              Add Product
+            </button>
+          </Link>
+        )}
+        <TableContainer component={Paper}>
+          {isLoading ? (
+            <CircleLoader />
+          ) : (
+            <>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#F5F5F5" }}>
+                  <TableRow>
+                    <TableCell align="center">Product Name</TableCell>
+                    <TableCell align="center">Price</TableCell>
+                    <TableCell align="center">Images</TableCell>
+                    <TableCell align="center">Status</TableCell>
+                    {isAdmin && <TableCell align="center">Action</TableCell>}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products.length > 0 ? (
+                    (rowsPerPage > 0
+                      ? products.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : products
+                    ).map((product) => (
+                      <TableRow
+                        key={product.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
                         <TableCell align="center">
-                          <div className="flex items-center justify-center gap-2">
-                            <Link to={`/editproduct/${product.uuid}`}>
-                              <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
-                                <FiEdit />
-                              </button>
-                            </Link>
-                            <button
-                              className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
-                              onClick={() => handleDeleteProduct(product.uuid)}
-                            >
-                              <MdOutlineDeleteOutline />
-                            </button>
+                          {product.productName}
+                        </TableCell>
+                        <TableCell align="center">
+                          {`Rp. ${Number(product.price).toLocaleString(
+                            "id-ID"
+                          )}`}
+                        </TableCell>
+                        <TableCell align="center">
+                          <div
+                            className="image flex gap-4"
+                            style={{ textAlign: "center" }}
+                          >
+                            {product.images ? (
+                              <img
+                                className="rounded-md w-20 h-20"
+                                src={
+                                  VITE_VERCEL_ENV === "production"
+                                    ? `https://sales-app-server-zeta.vercel.app/uploads/${product.images}`
+                                    : `http://localhost:5000/uploads/${product.images}`
+                                }
+                                alt="Product Images"
+                                style={{
+                                  margin: "auto",
+                                  objectFit: "cover",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => handleImageClick(product.uuid)}
+                              />
+                            ) : (
+                              <img
+                                className="rounded-md w-20 h-20"
+                                src={blank}
+                                alt="Product Images"
+                                style={{ margin: "auto", objectFit: "cover" }}
+                                onClick={() => handleImageClick(blank)}
+                              />
+                            )}
                           </div>
                         </TableCell>
-                      )}
+                        <TableCell align="center">
+                          <GridProductStatus
+                            Status={
+                              product.status === 0 ? "Available" : "Empty"
+                            }
+                            StatusBg={
+                              product.status === 0 ? "#478778" : "#D22B2B"
+                            }
+                          />
+                        </TableCell>
+                        {isAdmin && (
+                          <TableCell align="center">
+                            <div className="flex items-center justify-center gap-2">
+                              <Link to={`/editproduct/${product.uuid}`}>
+                                <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
+                                  <FiEdit />
+                                </button>
+                              </Link>
+                              <button
+                                className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
+                                onClick={() =>
+                                  handleDeleteProduct(product.uuid)
+                                }
+                              >
+                                <MdOutlineDeleteOutline />
+                              </button>
+                            </div>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} align="center">
+                        No Data
+                      </TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      No Data
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <TablePagination
-              style={{ backgroundColor: "#F5F5F5" }}
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={products.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </>
+                  )}
+                </TableBody>
+              </Table>
+              <TablePagination
+                style={{ backgroundColor: "#F5F5F5" }}
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={products.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
+        </TableContainer>
+        {/* Menampilkan komponen ViewImages jika selectedImage tidak null */}
+        {selectedImage && (
+          <ViewImages
+            uuid={selectedImage}
+            handleClose={handleCloseViewImages}
+          />
         )}
-      </TableContainer>
-      {/* Menampilkan komponen ViewImages jika selectedImage tidak null */}
-      {selectedImage && (
-        <ViewImages uuid={selectedImage} handleClose={handleCloseViewImages} />
-      )}
+      </div>
     </div>
   );
 };

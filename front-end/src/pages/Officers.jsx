@@ -108,73 +108,75 @@ const Officers = () => {
   });
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Page" title="Officers" />
-      <Link to="/addofficer">
-        <button
-          type="button"
-          className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
-          style={{ backgroundColor: currentColor }}
-        >
-          Add Officer
-        </button>
-      </Link>
-      <TableContainer component={Paper}>
-        {isLoading ? (
-          <CircleLoader />
-        ) : (
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-              <TableRow>
-                <TableCell align="center">Officer Name</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Roles</TableCell>
-                <TableCell align="center">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredData.length > 0 ? (
-                filteredData.map((officer) => (
-                  <TableRow
-                    key={officer.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center">{officer.name}</TableCell>
-                    <TableCell align="center">{officer.email}</TableCell>
-                    <TableCell align="center">{officer.roles}</TableCell>
-                    <TableCell align="center">
-                      <div className="flex items-center justify-center gap-2">
-                        <Link to={`/viewofficer/${officer.uuid}`}>
-                          <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 text-white bg-emerald-700 rounded-full">
-                            <FaEye />
+    <div style={{ paddingTop: "60px" }}>
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Page" title="Officers" />
+        <Link to="/addofficer">
+          <button
+            type="button"
+            className="hover:drop-shadow-xl hover:bg-light-gray text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4"
+            style={{ backgroundColor: currentColor }}
+          >
+            Add Officer
+          </button>
+        </Link>
+        <TableContainer component={Paper}>
+          {isLoading ? (
+            <CircleLoader />
+          ) : (
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
+                <TableRow>
+                  <TableCell align="center">Officer Name</TableCell>
+                  <TableCell align="center">Email</TableCell>
+                  <TableCell align="center">Roles</TableCell>
+                  <TableCell align="center">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredData.length > 0 ? (
+                  filteredData.map((officer) => (
+                    <TableRow
+                      key={officer.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center">{officer.name}</TableCell>
+                      <TableCell align="center">{officer.email}</TableCell>
+                      <TableCell align="center">{officer.roles}</TableCell>
+                      <TableCell align="center">
+                        <div className="flex items-center justify-center gap-2">
+                          <Link to={`/viewofficer/${officer.uuid}`}>
+                            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-emerald-500 text-white bg-emerald-700 rounded-full">
+                              <FaEye />
+                            </button>
+                          </Link>
+                          <Link to={`/editofficer/${officer.uuid}`}>
+                            <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
+                              <FiEdit />
+                            </button>
+                          </Link>
+                          <button
+                            className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
+                            onClick={() => handleDeleteOfficer(officer.uuid)}
+                          >
+                            <MdOutlineDeleteOutline />
                           </button>
-                        </Link>
-                        <Link to={`/editofficer/${officer.uuid}`}>
-                          <button className="text-md p-3 mr-2 hover:drop-shadow-md hover:bg-blue-500 text-white bg-blue-700 rounded-full">
-                            <FiEdit />
-                          </button>
-                        </Link>
-                        <button
-                          className="text-md p-3 hover:drop-shadow-md hover:bg-red-500 text-white bg-red-700 rounded-full"
-                          onClick={() => handleDeleteOfficer(officer.uuid)}
-                        >
-                          <MdOutlineDeleteOutline />
-                        </button>
-                      </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      No Data
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    No Data
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        )}
-      </TableContainer>
+                )}
+              </TableBody>
+            </Table>
+          )}
+        </TableContainer>
+      </div>
     </div>
   );
 };
