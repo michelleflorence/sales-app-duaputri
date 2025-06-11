@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
 import { links } from "../data/dummy";
-import logoDuaPutri from "../data/logo2.png";
+import logoDuaPutri from "../assets/img/logo2.png";
 import { useStateContext } from "../contexts/ContextProvider";
 import BarLoader from "./BarLoader";
 import { fetchData, getAuthHeaders } from "../helpers/helpers";

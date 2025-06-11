@@ -14,7 +14,7 @@ const BarLoader = () => {
       }}
     >
       <LinearProgress />
-      <p>Loading...</p>
+      <p className="text-black dark:text-white">Loading...</p>
     </Box>
   );
 };

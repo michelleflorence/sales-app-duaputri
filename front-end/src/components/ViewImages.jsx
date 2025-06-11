@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../contexts/ContextProvider";
-import blank from "../data/blank.jpg";
+import blank from "../assets/img/blank.jpg";
 import axios from "axios";
 
 const { VITE_VERCEL_ENV } = import.meta.env;
@@ -52,9 +52,9 @@ const ViewImages = ({ uuid, handleClose }) => {
         >
           <MdOutlineCancel />
         </button>
-        <div className="flex justify-center">
+        <div className="flex justify-center w-96">
           <img
-            className="rounded-t-lg w-full h-96 object-cover"
+            className="flex rounded-b-lg w-full h-96 object-cover justify-center"
             src={
               images && images.length > 0
                 ? VITE_VERCEL_ENV  === "production"

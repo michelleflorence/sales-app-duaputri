@@ -66,71 +66,79 @@ const ActivityLog = () => {
   };
 
   return (
-    <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
-      <Header category="Logs" title="Activity Log" />
-      <TableContainer component={Paper}>
-        {isLoading ? (
-          <CircleLoader />
-        ) : (
-          <>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#F5F5F5" }}>
-                <TableRow>
-                  <TableCell align="center">Officer ID</TableCell>
-                  <TableCell align="center">Action</TableCell>
-                  <TableCell align="center">Target</TableCell>
-                  <TableCell align="center">Created At</TableCell>
-                  <TableCell align="center">Updated At</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {logData.length > 0 ? (
-                  (rowsPerPage > 0
-                    ? logData.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : logData
-                  ).map((activitylog) => (
-                    <TableRow
-                      key={activitylog.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center">
-                        {activitylog.officerId}
-                      </TableCell>
-                      <TableCell align="center">{activitylog.action}</TableCell>
-                      <TableCell align="center">{activitylog.target}</TableCell>
-                      <TableCell align="center">
-                        {activitylog.createdAt}
-                      </TableCell>
-                      <TableCell align="center">
-                        {activitylog.updatedAt}
+     <div className="pt-[60px] md:pt-0">
+      <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl dark:bg-gray-200">
+        <Header category="Logs" title="Activity Log" />
+        <TableContainer component={Paper}>
+          {isLoading ? (
+            <CircleLoader />
+          ) : (
+            <>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#F5F5F5" }}>
+                  <TableRow>
+                    <TableCell align="center">Officer ID</TableCell>
+                    <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">Target</TableCell>
+                    <TableCell align="center">Created At</TableCell>
+                    <TableCell align="center">Updated At</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {logData.length > 0 ? (
+                    (rowsPerPage > 0
+                      ? logData.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : logData
+                    ).map((activitylog) => (
+                      <TableRow
+                        key={activitylog.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">
+                          {activitylog.officerId}
+                        </TableCell>
+                        <TableCell align="center">
+                          {activitylog.action}
+                        </TableCell>
+                        <TableCell align="center">
+                          {activitylog.target}
+                        </TableCell>
+                        <TableCell align="center">
+                          {activitylog.createdAt}
+                        </TableCell>
+                        <TableCell align="center">
+                          {activitylog.updatedAt}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} align="center">
+                        No Data
                       </TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      No Data
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <TablePagination
-              style={{ backgroundColor: "#F5F5F5" }}
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={logData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </>
-        )}
-      </TableContainer>
+                  )}
+                </TableBody>
+              </Table>
+              <TablePagination
+                style={{ backgroundColor: "#F5F5F5" }}
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={logData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
+        </TableContainer>
+      </div>
     </div>
   );
 };

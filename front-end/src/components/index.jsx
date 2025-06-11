@@ -9,3 +9,6 @@ export { default as PrivateRoute } from "./PrivateRoute";
 export { default as LineChart } from "./Charts/LineChart";
 export { default as StackedBarChart } from "./Charts/StackedBarChart";
 export { default as ViewImages } from "./ViewImages";
+export { default as CircleLoader } from "./CircleLoader";
+export { default as CircularProgress } from "./CircularProgress";
+export { default as Illustration } from "./Illustration";

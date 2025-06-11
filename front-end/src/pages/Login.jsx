@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import logoDuaPutri from "../data/logo.png";
+import { useState } from "react";
+import logoDuaPutri from "../assets/img/logo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateContext } from "../contexts/ContextProvider";
 import Tooltip from "@mui/material/Tooltip";
 import { FiSettings } from "react-icons/fi";
-import { ThemeSettings } from "../components";
+import { Button, CircularProgress, ThemeSettings } from "../components";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const { VITE_VERCEL_ENV } = import.meta.env;
@@ -18,7 +18,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Validate email
   const validateEmail = (email) => {
@@ -42,6 +43,7 @@ const Login = () => {
   // Function to handle login request
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
 
     try {
       const response = await axios.post(
@@ -55,12 +57,10 @@ const Login = () => {
       );
       const { token, roles } = response.data;
 
-      // Save token and officer data to local storage if needed
       localStorage.setItem("token", token);
       localStorage.setItem("roles", roles);
 
-      // Fetch additional data after successful login
-      const fetchDataResponse = await axios.get(
+      await axios.get(
         VITE_VERCEL_ENV === "production"
           ? "https://sales-app-server-zeta.vercel.app/officers"
           : "http://localhost:5000/officers",
@@ -71,25 +71,19 @@ const Login = () => {
         }
       );
 
-      // You can use the fetched data as needed
-      // const officerData = fetchDataResponse.data;
-      // console.log("Fetched officer data:", officerData);
-
-      // Navigate or perform other actions after successful login
-      navigate("/"); // Example navigation to the dashboard page after login
-
-      // Show success toast
       toast.success("Login successful!");
+      navigate("/");
     } catch (error) {
-      // Handle login errors
-      console.error("Error during login:", error);
       toast.error(error.response?.data?.msg || "An error occurred");
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <div className="min-h-screen dark:bg-main-dark-bg dark:text-gray-200">
+      <div className="min-h-screen flex items-center justify-center dark:bg-main-dark-bg dark:text-gray-200">
+        {/* Tooltip */}
         <div
           className="fixed right-4 bottom-4 dark:bg-main-dark-bg"
           style={{ zIndex: "1000" }}
@@ -105,7 +99,9 @@ const Login = () => {
             </button>
           </Tooltip>
         </div>
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 dark:bg-main-dark-bg dark:text-gray-200">
+
+        {/* Login form panel */}
+        <div className="w-full lg:w-1/2 p-20 align-middle flex flex-col justify-center">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-20 w-auto"
@@ -178,13 +174,15 @@ const Login = () => {
               </div>
 
               <div>
-                <button
-                  style={{ backgroundColor: currentColor }}
+                <Button
                   type="submit"
-                  className="flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-900"
+                  color="white"
+                  bgColor={currentColor}
+                  borderRadius="10px"
+                  fullWidth
                 >
-                  Sign in
-                </button>
+                  {isLoading ? <CircularProgress /> : "Sign in"}
+                </Button>
               </div>
               <div>
                 {/* Only show theme settings if it is currently true */}

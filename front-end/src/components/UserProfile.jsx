@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
-import { Button } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
-import avatar from "../data/avatar.jpg";
-import avatar2 from "../data/avatar2.jpg";
-import avatar3 from "../data/avatar3.jpg";
-import avatar4 from "../data/avatar4.jpg";
+import avatar from "../assets/img/avatar.jpg";
+import avatar2 from "../assets/img/avatar2.jpg";
+import avatar3 from "../assets/img/avatar3.jpg";
+import avatar4 from "../assets/img/avatar4.jpg";
 import { useNavigate } from "react-router-dom";
-import CircleLoader from "./CircleLoader";
 import { fetchData, getAuthHeaders } from "../helpers/helpers";
+import Button from "./Button";
+import CircleLoader from "./CircleLoader";
 const { VITE_VERCEL_ENV } = import.meta.env;
 
 const UserProfile = () => {
@@ -106,11 +106,12 @@ const UserProfile = () => {
         <Button
           color="white"
           bgColor={currentColor}
-          text="Logout"
           borderRadius="10px"
-          width="full"
+          fullWidth={true}
           onClick={handleLogOut}
-        />
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );
