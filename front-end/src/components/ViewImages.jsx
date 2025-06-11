@@ -42,7 +42,7 @@ const ViewImages = ({ uuid, handleClose }) => {
   }, [uuid]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-half-transparent">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-half-transparent" onClick={() => handleClose(false)}>
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-200">
         <button
           className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
@@ -52,7 +52,7 @@ const ViewImages = ({ uuid, handleClose }) => {
         >
           <MdOutlineCancel />
         </button>
-        <div className="flex justify-center w-96">
+        <div className="flex justify-center" style={{ width: "350px" }}>
           <img
             className="flex rounded-b-lg w-full h-96 object-cover justify-center"
             src={
