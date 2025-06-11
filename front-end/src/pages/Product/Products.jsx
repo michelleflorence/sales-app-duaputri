@@ -83,7 +83,7 @@ const Products = () => {
       }
     }
   };
-  
+
   const fetchOfficerData = async () => {
     setIsLoading(true);
     // Mendapatkan data officer yang sedang login
@@ -221,7 +221,11 @@ const Products = () => {
                                 className="rounded-md w-20 h-20"
                                 src={blank}
                                 alt="Product Images"
-                                style={{ margin: "auto", objectFit: "cover" }}
+                                style={{
+                                  margin: "auto",
+                                  objectFit: "cover",
+                                  cursor: "pointer",
+                                }}
                                 onClick={() => handleImageClick(blank)}
                               />
                             )}
@@ -280,7 +284,7 @@ const Products = () => {
             </>
           )}
         </TableContainer>
-        
+
         {/* Menampilkan komponen ViewImages jika selectedImage tidak null */}
         {selectedImage && (
           <ViewImages
